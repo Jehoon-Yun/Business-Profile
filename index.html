@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>윤제훈 | 연쇄 창업가 비즈니스 프로필</title>
+    <meta property="og:title" content="윤제훈 | 아이디어를 매출로 바꾸는 사람">
+    <meta property="og:description" content="20세 첫 창업, 누적 매출 11억. 실행으로 증명하는 연쇄 창업가의 비즈니스 프로필입니다.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Pretendard', 'sans-serif'] },
+                    colors: { bgDark: '#111111', cardDark: '#1E293B', accent: '#FF5A36' }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ── Base ── */
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: #111111;
+            color: #F8FAFC;
+            font-family: 'Pretendard', sans-serif;
+            overflow-x: hidden;
+            /* 전체 텍스트 선택·복사 비활성화 */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        /* 의도한 복사 버튼은 선택 허용 (접근성 유지) */
+        #email-btn-text,
+        #url-copy-text {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            user-select: text;
+        }
+
+        /* ── 배경 파티클 캔버스 ── */
+        #particle-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* ── 콘텐츠는 캔버스 위 ── */
+        .page-wrap { position: relative; z-index: 1; }
+
+        /* ── Glass Card ── */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* ── Hover Up ── */
+        .hover-up {
+            transition: transform 0.35s cubic-bezier(.4,0,.2,1),
+                        box-shadow 0.35s cubic-bezier(.4,0,.2,1);
+        }
+        .hover-up:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 32px rgba(255,90,54,0.15);
+        }
+
+        /* ── Navbar ── */
+        #navbar {
+            background: rgba(17,17,17,0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255,90,54,0.12);
+            transition: box-shadow 0.3s;
+        }
+        #navbar.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
+
+        .nav-link {
+            font-size: 0.78rem; font-weight: 700;
+            letter-spacing: 0.06em; color: #6b7280;
+            transition: color 0.2s; padding: 4px 0;
+            position: relative;
+        }
+        .nav-link::after {
+            content: ''; position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: #FF5A36;
+            transition: width 0.25s ease;
+            border-radius: 2px;
+        }
+        .nav-link:hover, .nav-link.active { color: #FF5A36; }
+        .nav-link.active::after, .nav-link:hover::after { width: 100%; }
+
+        /* ── 스크롤 진행 바 ── */
+        #progress-bar {
+            position: fixed; top: 56px; left: 0;
+            height: 2px; width: 0%;
+            background: linear-gradient(90deg, #FF5A36, #ff9500);
+            z-index: 60;
+            transition: width 0.05s linear;
+        }
+
+        /* ── HERO 사진: 레퍼런스 스타일 (크고 원형) ── */
+        .hero-photo-wrap {
+            position: relative;
+            display: inline-block;
+        }
+        .hero-photo-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #FF5A36, #ff9500, #FF5A36);
+            animation: spinGlow 4s linear infinite;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        .hero-photo-wrap::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,90,54,0.18) 0%, transparent 70%);
+            z-index: -2;
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+        @keyframes spinGlow {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50%       { transform: scale(1.08); opacity: 1; }
+        }
+        .hero-photo {
+            width: 220px; height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+            border: 3px solid #111111;
+        }
+        @media (min-width: 768px) {
+            .hero-photo { width: 300px; height: 300px; }
+        }
+
+        /* ── 타이핑 커서 ── */
+        .typing-cursor {
+            display: inline-block;
+            width: 3px; height: 1em;
+            background: #FF5A36;
+            margin-left: 4px;
+            vertical-align: middle;
+            animation: blink 0.9s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0; }
+        }
+
+        /* ── 스크롤 등장 애니메이션 ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 0.7s cubic-bezier(.4,0,.2,1),
+                        transform 0.7s cubic-bezier(.4,0,.2,1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-left {
+            opacity: 0; transform: translateX(-36px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-right {
+            opacity: 0; transform: translateX(36px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+        /* ── 순차 딜레이 ── */
+        .delay-1 { transition-delay: 0.05s; }
+        .delay-2 { transition-delay: 0.13s; }
+        .delay-3 { transition-delay: 0.21s; }
+        .delay-4 { transition-delay: 0.29s; }
+        .delay-5 { transition-delay: 0.37s; }
+        .delay-6 { transition-delay: 0.45s; }
+        .delay-7 { transition-delay: 0.53s; }
+
+        /* ── 핵심역량 아이콘 ── */
+        .strength-icon {
+            width: 52px; height: 52px; border-radius: 14px;
+            background: rgba(255,90,54,0.1);
+            border: 1px solid rgba(255,90,54,0.22);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; flex-shrink: 0;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .glass-card:hover .strength-icon {
+            background: rgba(255,90,54,0.2);
+            transform: scale(1.1) rotate(-4deg);
+        }
+
+        /* ── 인스타그램 그라데이션 아이콘 ── */
+        .ig-gradient-icon {
+            width: 20px; height: 20px; flex-shrink: 0;
+        }
+
+        /* ── 경험 카드 링크 버튼 ── */
+        .exp-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 14px;
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,90,54,0.35);
+            background: rgba(255,90,54,0.07);
+            color: #FF5A36;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+            white-space: nowrap;
+        }
+        .exp-link-btn:hover {
+            background: rgba(255,90,54,0.18);
+            border-color: #FF5A36;
+            transform: translateY(-1px);
+        }
+        .exp-link-btn svg {
+            width: 11px; height: 11px;
+            flex-shrink: 0;
+        }
+
+        /* ── 연락처 SVG 아이콘 ── */
+        .contact-svg-icon {
+            width: 17px; height: 17px; flex-shrink: 0;
+        }
+
+        /* ── 모바일 텍스트 최적화 ── */
+        @media (max-width: 767px) {
+            .exp-list li {
+                font-size: 0.82rem;
+                line-height: 1.65;
+                word-break: keep-all;
+                overflow-wrap: break-word;
+            }
+            .card-title  { font-size: 1rem; }
+            .card-role   { font-size: 0.8rem; }
+            .card-period { font-size: 0.72rem; }
+            .card-pad    { padding: 1.2rem; }
+            .section-heading { font-size: 1.15rem; }
+        }
+
+        /* ── section-heading accent line ── */
+        .section-heading {
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 36px; height: 2px;
+            background: #FF5A36;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-accent selection:text-white">
+
+<!-- 배경 파티클 -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- 스크롤 진행 바 -->
+<div id="progress-bar"></div>
+
+<!-- ─── 네비게이션 ─── -->
+<nav id="navbar" class="fixed top-0 left-0 right-0" style="position:fixed;z-index:9999;">
+    <div class="max-w-4xl mx-auto px-5 h-14 flex items-center justify-between">
+        <a href="#hero" class="font-extrabold text-white tracking-tight text-base hover:text-accent transition-colors duration-200">
+            윤제훈 <span class="text-accent">·</span> YJH
+        </a>
+        <div class="hidden md:flex items-center gap-7">
+            <a href="#stats"      class="nav-link">STATS</a>
+            <a href="#strengths"  class="nav-link">STRENGTHS</a>
+            <a href="#experience" class="nav-link">EXPERIENCE</a>
+            <a href="#highlights" class="nav-link">HIGHLIGHTS</a>
+            <a href="#contact"    class="nav-link">CONTACT</a>
+        </div>
+        <a href="#contact" class="md:hidden text-xs font-bold px-4 py-1.5 rounded-full border border-accent text-accent hover:bg-accent hover:text-white transition-all">
+            문의하기
+        </a>
+    </div>
+</nav>
+
+<!-- ─── 본문 ─── -->
+<div class="page-wrap max-w-3xl mx-auto px-5 pt-24 pb-16 space-y-24">
+
+    <!-- ① HERO -->
+    <header id="hero" class="text-center space-y-8">
+        <!-- 뱃지 -->
+        <div class="reveal">
+            <span class="inline-block px-4 py-1 rounded-full border border-accent text-accent text-xs font-bold tracking-widest">
+                SERIAL ENTREPRENEUR
+            </span>
+        </div>
+
+        <!-- 타이틀 -->
+        <div class="reveal delay-1">
+            <h1 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
+                아이디어를<br class="md:hidden"/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-orange-400"> 매출로 바꾸는 사람</span>
+            </h1>
+        </div>
+
+        <!-- 사진 (크고 원형, 레퍼런스 스타일) -->
+        <div class="reveal delay-2 flex flex-col items-center gap-5">
+            <div class="hero-photo-wrap">
+                <img src="images/profile.jpg" alt="윤제훈 프로필" class="hero-photo">
+            </div>
+            <div>
+                <p class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">윤제훈</p>
+                <p class="text-sm text-accent font-mono tracking-widest mt-1">Jehoon Yun</p>
+            </div>
+        </div>
+
+        <!-- 소개 -->
+        <p class="reveal delay-3 text-gray-400 text-base md:text-xl leading-relaxed max-w-2xl mx-auto">
+            20세 첫 창업 이후 광고·커머스 분야에서 <strong class="text-white">11억 원 규모 매출</strong>을 창출했습니다.<br class="hidden md:block"/>
+            기획에서 멈추지 않고 빠른 실행과 데이터로 <strong class="text-white">수익 구조</strong>를 검증합니다.
+        </p>
+
+        <!-- CTA -->
+        <div class="reveal delay-4">
+            <a href="#contact" class="inline-block px-8 py-3 rounded-full border-2 border-accent text-accent font-bold text-sm hover:bg-accent hover:text-white transition-all duration-200">
+                문의하기
+            </a>
+        </div>
+
+        <!-- 스크롤 유도 화살표 -->
+        <div class="reveal delay-5 flex justify-center pt-4">
+            <div class="scroll-hint flex flex-col items-center gap-1 opacity-40">
+                <span class="text-xs text-gray-500 tracking-widest">SCROLL</span>
+                <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+                    <path d="M8 4v16M2 14l6 6 6-6" stroke="#FF5A36" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- ② STATS -->
+    <section id="stats" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="glass-card rounded-2xl hover-up reveal delay-1">
+            <div class="flex items-center justify-between px-6 py-5 gap-4">
+                <div>
+                    <div class="text-xs text-gray-500 font-mono mb-1">2년 누적 매출</div>
+                    <div class="text-2xl md:text-3xl font-extrabold text-accent font-mono tracking-tight">
+                        ₩<span class="count-up" data-target="1100000000" data-prefix="₩" data-suffix="">1,100,000,000</span>+
+                    </div>
+                </div>
+                <div class="text-xs text-gray-600 font-mono">KRW</div>
+            </div>
+        </div>
+        <div class="glass-card rounded-2xl hover-up reveal delay-2">
+            <div class="flex items-center justify-between px-6 py-5 gap-4">
+                <div>
+                    <div class="text-xs text-gray-500 font-mono mb-1">단일 월 최대 매출</div>
+                    <div class="text-2xl md:text-3xl font-extrabold text-accent font-mono tracking-tight">
+                        ₩73,000,000+
+                    </div>
+                </div>
+                <div class="text-xs text-gray-600 font-mono">KRW / MO.</div>
+            </div>
+        </div>
+        <div class="glass-card rounded-2xl hover-up reveal delay-3">
+            <div class="flex items-center justify-between px-6 py-5 gap-4">
+                <div>
+                    <div class="text-xs text-gray-500 font-mono mb-1">아이디어 → 첫 수익화</div>
+                    <div class="text-2xl md:text-3xl font-extrabold text-accent">&lt;1개월</div>
+                </div>
+                <div class="text-xs text-gray-600 font-mono">TIME TO REVENUE</div>
+            </div>
+        </div>
+        <div class="glass-card rounded-2xl hover-up reveal delay-4">
+            <div class="flex items-center justify-between px-6 py-5 gap-4">
+                <div>
+                    <div class="text-xs text-gray-500 font-mono mb-1">창업 및 BM 구축</div>
+                    <div class="text-2xl md:text-3xl font-extrabold text-accent">4회</div>
+                </div>
+                <div class="text-xs text-gray-600 font-mono">FOUNDED</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ③ CORE STRENGTHS -->
+    <section id="strengths" class="space-y-6">
+        <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal">CORE STRENGTHS</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="glass-card p-6 rounded-2xl hover-up flex md:flex-col gap-4 md:gap-3 reveal delay-1">
+                <div class="strength-icon">🚀</div>
+                <div>
+                    <div class="font-bold text-white text-sm md:text-base mb-1">아이디어 → 매출 전환</div>
+                    <div class="text-gray-400 text-xs md:text-sm leading-relaxed">구상에서 실제 매출 발생까지 평균 1개월 이내 실행 완료</div>
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl hover-up flex md:flex-col gap-4 md:gap-3 reveal delay-2">
+                <div class="strength-icon">🎯</div>
+                <div>
+                    <div class="font-bold text-white text-sm md:text-base mb-1">마케팅 · 영업 통합 실행</div>
+                    <div class="text-gray-400 text-xs md:text-sm leading-relaxed">기획 단계부터 실제 영업·운영까지 직접 주도하며 성과를 만들어냄</div>
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl hover-up flex md:flex-col gap-4 md:gap-3 reveal delay-3">
+                <div class="strength-icon">📊</div>
+                <div>
+                    <div class="font-bold text-white text-sm md:text-base mb-1">빠른 실행 기반 사업 검증</div>
+                    <div class="text-gray-400 text-xs md:text-sm leading-relaxed">데이터 기반 가설 검증 후 빠른 피벗으로 리스크를 최소화</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ④ EXPERIENCE -->
+    <section id="experience" class="space-y-6">
+        <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal">EXPERIENCE</h2>
+        <div class="space-y-4">
+
+            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-1">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
+                    <div>
+                        <h3 class="card-title text-xl font-bold text-white">유니브립 (UNIVLIP)</h3>
+                        <p class="card-role text-accent font-medium mt-0.5">공동창업자 · 대표</p>
+                    </div>
+                    <span class="card-period text-gray-500 text-sm mt-1 md:mt-0">2023 – 2025</span>
+                </div>
+                <ul class="exp-list list-disc list-inside text-gray-300 space-y-1.5 leading-relaxed">
+                    <li>대학생 타겟 광고대행사 창업</li>
+                    <li class="text-white font-semibold">창업 1년 내 월 매출 6,800만 원 기록</li>
+                    <li>국내외 대기업 마케팅 캠페인 기획 및 수행 (신한카드, 네이버페이, 필립모리스, 메이투 등)</li>
+                    <li>동국대학교 캠퍼스타운 입주 기업 선정</li>
+                </ul>
+            </div>
+
+            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-2">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
+                    <div>
+                        <h3 class="card-title text-xl font-bold text-white">림픽컴퍼니</h3>
+                        <p class="card-role text-accent font-medium mt-0.5">창업자 · 대표</p>
+                    </div>
+                    <span class="card-period text-gray-500 text-sm mt-1 md:mt-0">2023 – 2025</span>
+                </div>
+                <ul class="exp-list list-disc list-inside text-gray-300 space-y-1.5 leading-relaxed">
+                    <li>배드민턴 용품 커머스 사업 구축</li>
+                    <li class="text-white font-semibold">일 최대 1,800만 원, 월 최대 7,300만 원 매출 기록</li>
+                    <li>리닝, 삼화 배드민턴, KBB SPORTS 공식 판매사</li>
+                </ul>
+            </div>
+
+            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-3">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
+                    <div>
+                        <h3 class="card-title text-xl font-bold text-white">산호초메디컬</h3>
+                        <p class="card-role text-accent font-medium mt-0.5">공동창업자</p>
+                    </div>
+                    <span class="card-period text-gray-500 text-sm mt-1 md:mt-0">2024 – 2025</span>
+                </div>
+                <ul class="exp-list list-disc list-inside text-gray-300 space-y-1.5 leading-relaxed">
+                    <li>대학생 대상 비급여 의료 플랫폼 기획 및 운영</li>
+                    <li>전국 주요 대학 총학생회 제휴 및 유입 채널 구축</li>
+                    <li>안과·치과 병의원 제휴를 통한 서비스 인프라 확보</li>
+                </ul>
+                <a href="https://sanhocho-medical-wf.com/" target="_blank" rel="noopener noreferrer" class="exp-link-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    웹사이트 방문
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-4">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
+                    <div>
+                        <h3 class="card-title text-xl font-bold text-white">에셋코치 <span class="text-gray-500 font-normal text-base">@assetcoach0</span></h3>
+                        <p class="card-role text-accent font-medium mt-0.5">공동창업자</p>
+                    </div>
+                    <span class="card-period text-gray-500 text-sm mt-1 md:mt-0">2024</span>
+                </div>
+                <ul class="exp-list list-disc list-inside text-gray-300 space-y-1.5 leading-relaxed">
+                    <li>경제 콘텐츠 기반 인스타그램 계정 구축 및 운영</li>
+                    <li class="text-white font-semibold">팔로워 3.5만 명 확보</li>
+                </ul>
+                <a href="https://www.instagram.com/assetcoach0/" target="_blank" rel="noopener noreferrer" class="exp-link-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    인스타그램 방문
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-5">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
+                    <div>
+                        <h3 class="card-title text-xl font-bold text-white">(주)텐덤</h3>
+                        <p class="card-role text-accent font-medium mt-0.5">PM (Product Manager)</p>
+                    </div>
+                    <span class="card-period text-gray-500 text-sm mt-1 md:mt-0">2024</span>
+                </div>
+                <ul class="exp-list list-disc list-inside text-gray-300 space-y-1.5 leading-relaxed">
+                    <li>'애드캠퍼스' 및 '베어유' 서비스 기획</li>
+                </ul>
+                <div class="flex flex-wrap gap-2 mt-3">
+                    <a href="https://www.addcampus.com/" target="_blank" rel="noopener noreferrer" class="exp-link-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        애드캠퍼스
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                    <a href="https://bear-u.com/" target="_blank" rel="noopener noreferrer" class="exp-link-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        베어유
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-6">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
+                    <div>
+                        <h3 class="card-title text-xl font-bold text-white">(주)디렉터홀딩스</h3>
+                        <p class="card-role text-accent font-medium mt-0.5">마케팅본부장</p>
+                    </div>
+                    <span class="card-period text-gray-500 text-sm mt-1 md:mt-0">2025</span>
+                </div>
+                <ul class="exp-list list-disc list-inside text-gray-300 space-y-1.5 leading-relaxed">
+                    <li>피부과 프랜차이즈 본사 마케팅 전략 및 예산 총괄</li>
+                    <li>디렉터의원 강남점 개원 초기 전략 및 컨셉 기획</li>
+                    <li class="text-white font-semibold">사내 최연소 본부장 선임</li>
+                </ul>
+                <a href="https://www.the-director.co.kr/" target="_blank" rel="noopener noreferrer" class="exp-link-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    웹사이트 방문
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-7">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
+                    <div>
+                        <h3 class="card-title text-xl font-bold text-white">대한민국 공군</h3>
+                        <p class="card-role text-accent font-medium mt-0.5">기반통신체계정비병</p>
+                    </div>
+                    <span class="card-period text-gray-500 text-sm mt-1 md:mt-0">2025 – 현재 (2027년 8월 전역)</span>
+                </div>
+                <ul class="exp-list list-disc list-inside text-gray-300 space-y-1.5 leading-relaxed">
+                    <li>통신 장비 유지보수 및 운용</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ⑤ HIGHLIGHTS & EDUCATION -->
+    <section id="highlights" class="grid md:grid-cols-2 gap-10">
+        <div class="space-y-5">
+            <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal">HIGHLIGHTS</h2>
+            <ul class="space-y-4">
+                <li class="flex items-start gap-3 reveal delay-1">
+                    <span class="text-xl flex-shrink-0 mt-0.5">🏆</span>
+                    <div>
+                        <p class="text-gray-200 text-sm font-medium leading-snug">건국대학교 '학생 창업 대표자 30인' 선정</p>
+                        <p class="text-accent text-xs font-mono mt-0.5">2024</p>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3 reveal delay-2">
+                    <span class="text-xl flex-shrink-0 mt-0.5">🥇</span>
+                    <div>
+                        <p class="text-gray-200 text-sm font-medium leading-snug">Connect 창업 아이디어톤 최우수상 (팀장)</p>
+                        <p class="text-accent text-xs font-mono mt-0.5">2024</p>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3 reveal delay-3">
+                    <span class="text-xl flex-shrink-0 mt-0.5">📦</span>
+                    <div>
+                        <p class="text-gray-200 text-sm font-medium leading-snug">KBB SPORTS 전국 최다 판매처 선정</p>
+                        <p class="text-accent text-xs font-mono mt-0.5">2024.12</p>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3 reveal delay-4">
+                    <span class="text-xl flex-shrink-0 mt-0.5">📈</span>
+                    <div>
+                        <p class="text-gray-200 text-sm font-medium leading-snug">토스증권 실전투자대회 3천만 원 리그 <strong class="text-white">Top 100</strong></p>
+                        <p class="text-accent text-xs font-mono mt-0.5">2025.05</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="space-y-5">
+            <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal">EDUCATION</h2>
+            <div class="glass-card p-6 rounded-2xl hover-up reveal delay-1">
+                <h3 class="text-lg font-bold text-white">🎓 건국대학교</h3>
+                <p class="text-gray-300 mt-1.5">산업공학과 재학</p>
+                <p class="text-gray-500 text-sm mt-1">2029년 2월 졸업 예정</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ⑥ CONTACT -->
+    <footer id="contact" class="pt-10 pb-8 border-t border-gray-800 text-center space-y-7">
+        <div class="reveal">
+            <h2 class="font-bold text-white" style="font-size:clamp(1.25rem,5vw,1.875rem); white-space:nowrap;">함께 만들어 갈 준비가 되어 있습니다</h2>
+            <p class="text-gray-400 text-sm md:text-base mt-3 leading-relaxed">
+                새로운 사업 기회, 협업 제안, 마케팅 파트너십 등<br class="hidden md:block"/>
+                어떤 주제든 편하게 연락 주세요. 빠르게 답변 드리겠습니다.
+            </p>
+        </div>
+
+        <!-- 연락처 버튼 4개: 모바일 4행 1열 / PC 2행 2열 -->
+        <div class="flex flex-col md:grid md:grid-cols-2 justify-center items-center gap-3 reveal delay-1 md:max-w-xl md:mx-auto">
+            <!-- 전화: 초록 컬러 -->
+            <a href="tel:010-4170-1644"
+               class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm whitespace-nowrap"
+               style="background:rgba(37,211,102,0.1); border:1px solid rgba(37,211,102,0.4); color:#25D366;">
+                <svg class="contact-svg-icon" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.16 6.16l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <span>010-4170-1644</span>
+            </a>
+            <!-- 이메일: 파란 컬러 (클릭 시 복사) -->
+            <button onclick="copyEmail()"
+               class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm cursor-pointer whitespace-nowrap"
+               style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.4); color:#60a5fa;">
+                <svg class="contact-svg-icon" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <polyline points="2,4 12,13 22,4"/>
+                </svg>
+                <span id="email-btn-text">yjh4334@naver.com</span>
+            </button>
+            <!-- 인스타그램: 그라데이션 배경/테두리, 흰색 아이콘 -->
+            <a href="https://instagram.com/yunjehoon" target="_blank" rel="noopener noreferrer"
+               class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm text-white whitespace-nowrap"
+               style="background:linear-gradient(135deg,rgba(255,216,121,0.15),rgba(255,84,62,0.15),rgba(193,53,132,0.15),rgba(88,81,219,0.15)); border:1.5px solid transparent; background-clip:padding-box; box-shadow:0 0 0 1.5px rgba(225,48,108,0.5); position:relative;">
+                <svg class="ig-gradient-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white" style="width:20px;height:20px;flex-shrink:0;">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                <span>@yunjehoon</span>
+            </a>
+            <!-- URL 복사: 주황 컬러 -->
+            <button onclick="copyProfileUrl()"
+                    class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm cursor-pointer whitespace-nowrap"
+                    style="background:rgba(255,90,54,0.1); border:1px solid rgba(255,90,54,0.4); color:#FF5A36;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#FF5A36" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     style="width:18px;height:18px;flex-shrink:0;">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                <span id="url-copy-text">프로필 URL 복사</span>
+            </button>
+        </div>
+        <p id="url-display" class="hidden"></p>
+
+        <p class="text-gray-600 text-xs pt-2">© 2026 Jehoon Yun. All rights reserved.</p>
+    </footer>
+
+</div>
+
+<!-- ─── JavaScript ─── -->
+<script>
+'use strict';
+
+/* ── 1. 배경 파티클 ── */
+(function() {
+    const canvas = document.getElementById('particle-canvas');
+    const ctx    = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function rand(a, b) { return Math.random() * (b - a) + a; }
+
+    class Particle {
+        constructor() { this.reset(); }
+        reset() {
+            this.x  = rand(0, W);
+            this.y  = rand(0, H);
+            this.r  = rand(0.5, 2.2);
+            this.vx = rand(-0.25, 0.25);
+            this.vy = rand(-0.35, -0.05);
+            this.alpha = rand(0.2, 0.7);
+            this.color = Math.random() > 0.6 ? '#FF5A36' : '#ffffff';
+        }
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.y < -5 || this.x < -5 || this.x > W + 5) this.reset();
+        }
+        draw() {
+            ctx.save();
+            ctx.globalAlpha = this.alpha;
+            ctx.fillStyle   = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+    }
+
+    for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+    (function loop() {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(loop);
+    })();
+})();
+
+
+/* ── 2. 스크롤 진행 바 ── */
+const progressBar = document.getElementById('progress-bar');
+function updateProgress() {
+    const scrolled = window.scrollY;
+    const total    = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar.style.width = (scrolled / total * 100) + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+
+
+/* ── 3. 네비게이션 scrolled 클래스 ── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+
+/* ── 4. Intersection Observer: reveal 애니메이션 ── */
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { rootMargin: '0px 0px -60px 0px', threshold: 0.08 });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+    revealObserver.observe(el);
+});
+
+// 페이지 첫 로드 시 뷰포트 안 요소 즉시 표시
+window.addEventListener('load', () => {
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 40) el.classList.add('visible');
+    });
+});
+
+
+/* ── 5-0. 이메일 복사 ── */
+function copyEmail() {
+    const email = 'yjh4334@naver.com';
+    navigator.clipboard.writeText(email).then(() => {
+        const btn = document.getElementById('email-btn-text');
+        const orig = btn.textContent;
+        btn.textContent = '✓ 복사됨!';
+        setTimeout(() => { btn.textContent = orig; }, 2000);
+    }).catch(() => {
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = email;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        const btn = document.getElementById('email-btn-text');
+        btn.textContent = '✓ 복사됨!';
+        setTimeout(() => { btn.textContent = 'yjh4334@naver.com'; }, 2000);
+    });
+}
+
+/* ── 5-0b. URL 복사 ── */
+function copyProfileUrl() {
+    const url = window.location.href;
+    const btn  = document.getElementById('url-copy-text');
+    const disp = document.getElementById('url-display');
+
+    function onSuccess() {
+        btn.textContent = '✓ 복사 완료!';
+        setTimeout(() => {
+            btn.textContent = '프로필 URL 복사';
+        }, 2000);
+    }
+
+    navigator.clipboard.writeText(url).then(onSuccess).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        onSuccess();
+    });
+}
+
+/* ── 5. 네비게이션 active 링크 ── */
+const navLinks  = document.querySelectorAll('.nav-link');
+const sectionEls = document.querySelectorAll('section[id], header[id], footer[id]');
+
+function setActive(id) {
+    navLinks.forEach(l => l.classList.remove('active'));
+    const t = document.querySelector(`.nav-link[href="#${id}"]`);
+    if (t) t.classList.add('active');
+}
+
+const secObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+}, { rootMargin: '-35% 0px -58% 0px', threshold: 0 });
+sectionEls.forEach(s => secObserver.observe(s));
+
+
+/* ── 6. 스무스 앵커 스크롤 (navbar offset 보정) ── */
+function smoothScrollTo(href) {
+    const target = document.querySelector(href);
+    if (!target) return;
+    const navH = navbar.offsetHeight;
+    const top  = target.getBoundingClientRect().top + window.scrollY - navH - 8;
+    window.scrollTo({ top, behavior: 'smooth' });
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        e.preventDefault();
+        smoothScrollTo(href);
+    });
+});
+
+
+/* ── 7. 스크롤 유도 화살표 bounce ── */
+const scrollHint = document.querySelector('.scroll-hint');
+if (scrollHint) {
+    scrollHint.style.animation = 'bounceY 2s ease-in-out infinite';
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes bounceY {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(8px); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    window.addEventListener('scroll', () => {
+        scrollHint.style.opacity = window.scrollY > 80 ? '0' : '0.4';
+    }, { passive: true });
+}
+</script>
+
+</body>
+</html>
