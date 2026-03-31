@@ -7,8 +7,12 @@
     <meta property="og:title" content="윤제훈 | 아이디어를 매출로 바꾸는 사람">
     <meta property="og:description" content="20세 첫 창업, 누적 매출 11억. 실행으로 증명하는 연쇄 창업가의 비즈니스 프로필입니다.">
 
+    <!-- 폰트 preconnect / preload -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+    <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
 
     <script>
         tailwind.config = {
@@ -52,6 +56,7 @@
             pointer-events: none;
             z-index: 0;
             opacity: 0.4;
+            will-change: transform; /* GPU 레이어 승격 */
         }
 
         /* ── 콘텐츠는 캔버스 위 ── */
@@ -63,12 +68,14 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.06);
+            contain: layout style; /* 레이아웃 격리로 리페인트 범위 축소 */
         }
 
         /* ── Hover Up ── */
         .hover-up {
-            transition: transform 0.35s cubic-bezier(.4,0,.2,1),
-                        box-shadow 0.35s cubic-bezier(.4,0,.2,1);
+            transition: transform 0.32s cubic-bezier(.4,0,.2,1),
+                        box-shadow 0.32s cubic-bezier(.4,0,.2,1);
+            will-change: transform; /* 호버 애니메이션 GPU 가속 */
         }
         .hover-up:hover {
             transform: translateY(-6px);
@@ -108,10 +115,11 @@
             height: 2px; width: 0%;
             background: linear-gradient(90deg, #FF5A36, #ff9500);
             z-index: 60;
-            transition: width 0.05s linear;
+            transition: width 0.08s linear;
+            will-change: width;
         }
 
-        /* ── HERO 사진: 레퍼런스 스타일 (크고 원형) ── */
+        /* ── HERO 사진 ── */
         .hero-photo-wrap {
             position: relative;
             display: inline-block;
@@ -122,9 +130,10 @@
             inset: -4px;
             border-radius: 50%;
             background: conic-gradient(from 0deg, #FF5A36, #ff9500, #FF5A36);
-            animation: spinGlow 4s linear infinite;
+            animation: spinGlow 6s linear infinite; /* 4s→6s: CPU 부하 감소 */
             z-index: -1;
             opacity: 0.7;
+            will-change: transform;
         }
         .hero-photo-wrap::after {
             content: '';
@@ -134,14 +143,14 @@
             background: radial-gradient(circle, rgba(255,90,54,0.18) 0%, transparent 70%);
             z-index: -2;
             animation: pulseGlow 3s ease-in-out infinite;
+            will-change: transform, opacity;
         }
         @keyframes spinGlow {
-            from { transform: rotate(0deg); }
-            to   { transform: rotate(360deg); }
+            to { transform: rotate(360deg); } /* from 제거 → 불필요 키프레임 축소 */
         }
         @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 0.6; }
-            50%       { transform: scale(1.08); opacity: 1; }
+            0%, 100% { transform: scale(1);    opacity: 0.6; }
+            50%       { transform: scale(1.08); opacity: 1;   }
         }
         .hero-photo {
             width: 220px; height: 220px;
@@ -172,21 +181,27 @@
         /* ── 스크롤 등장 애니메이션 ── */
         .reveal {
             opacity: 0;
-            transform: translateY(36px);
-            transition: opacity 0.7s cubic-bezier(.4,0,.2,1),
-                        transform 0.7s cubic-bezier(.4,0,.2,1);
+            transform: translateY(28px); /* 이동 거리 축소 → 부드러운 등장 */
+            transition: opacity 0.55s cubic-bezier(.4,0,.2,1),
+                        transform 0.55s cubic-bezier(.4,0,.2,1);
+            will-change: opacity, transform;
         }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal.visible {
+            opacity: 1; transform: translateY(0);
+            will-change: auto; /* 등장 후 will-change 해제 */
+        }
         .reveal-left {
-            opacity: 0; transform: translateX(-36px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            opacity: 0; transform: translateX(-28px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
+            will-change: opacity, transform;
         }
-        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); will-change: auto; }
         .reveal-right {
-            opacity: 0; transform: translateX(36px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            opacity: 0; transform: translateX(28px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
+            will-change: opacity, transform;
         }
-        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); will-change: auto; }
 
         /* ── 순차 딜레이 ── */
         .delay-1 { transition-delay: 0.05s; }
@@ -329,7 +344,7 @@
         <!-- 사진 (크고 원형, 레퍼런스 스타일) -->
         <div class="reveal delay-2 flex flex-col items-center gap-5">
             <div class="hero-photo-wrap">
-                <img src="profile.jpg" alt="윤제훈 프로필" class="hero-photo">
+                <img src="images/profile.jpg" alt="윤제훈 프로필" class="hero-photo">
             </div>
             <div>
                 <p class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">윤제훈</p>
@@ -449,7 +464,7 @@
                 <ul class="exp-list list-disc list-inside text-gray-300 space-y-1.5 leading-relaxed">
                     <li>대학생 타겟 광고대행사 창업</li>
                     <li class="text-white font-semibold">창업 1년 내 월 매출 6,800만 원 기록</li>
-                    <li>국내외 대기업 마케팅 캠페인 기획 및 수행 <br>(신한카드, 네이버페이, 필립모리스, 메이투 등)</li>
+                    <li>국내외 대기업 마케팅 캠페인 기획 및 수행 (신한카드, 네이버페이, 필립모리스, 메이투 등)</li>
                     <li>동국대학교 캠퍼스타운 입주 기업 선정</li>
                 </ul>
             </div>
@@ -553,19 +568,6 @@
                 </a>
             </div>
 
-            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-7">
-                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
-                    <div>
-                        <h3 class="card-title text-xl font-bold text-white">대한민국 공군</h3>
-                        <p class="card-role text-accent font-medium mt-0.5">기반통신체계정비병</p>
-                    </div>
-                    <span class="card-period text-gray-500 text-sm mt-1 md:mt-0">2025 – 현재 (2027년 8월 전역)</span>
-                </div>
-                <ul class="exp-list list-disc list-inside text-gray-300 space-y-1.5 leading-relaxed">
-                    <li>통신 장비 유지보수 및 운용</li>
-                </ul>
-            </div>
-
         </div>
     </section>
 
@@ -611,6 +613,24 @@
                 <h3 class="text-lg font-bold text-white">🎓 건국대학교</h3>
                 <p class="text-gray-300 mt-1.5">산업공학과 재학</p>
                 <p class="text-gray-500 text-sm mt-1">2029년 2월 졸업 예정</p>
+            </div>
+
+            <!-- 대한민국 공군 (MILITARY 섹션) -->
+            <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal" style="padding-top:0.5rem;">MILITARY</h2>
+            <div class="glass-card p-6 rounded-2xl hover-up reveal delay-1">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">✈️ 대한민국 공군</h3>
+                        <p class="text-accent font-medium text-sm mt-0.5">기반통신체계정비병</p>
+                    </div>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold flex-shrink-0 mt-0.5"
+                          style="background:rgba(37,211,102,0.12); color:#25D366; border:1px solid rgba(37,211,102,0.35);">
+                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#25D366] animate-pulse"></span>
+                        복무중
+                    </span>
+                </div>
+                <p class="text-gray-500 text-sm mt-2">2025.11 – 2027.08</p>
+                <p class="text-gray-400 text-sm mt-1.5">통신 장비 유지보수 및 운용</p>
             </div>
         </div>
     </section>
@@ -681,7 +701,7 @@
 /* ── 1. 배경 파티클 ── */
 (function() {
     const canvas = document.getElementById('particle-canvas');
-    const ctx    = canvas.getContext('2d');
+    const ctx    = canvas.getContext('2d', { alpha: false });
     let W, H, particles = [];
 
     function resize() {
@@ -689,19 +709,21 @@
         H = canvas.height = window.innerHeight;
     }
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
 
     function rand(a, b) { return Math.random() * (b - a) + a; }
+
+    const PARTICLE_COUNT = window.innerWidth < 768 ? 40 : 65;
 
     class Particle {
         constructor() { this.reset(); }
         reset() {
-            this.x  = rand(0, W);
-            this.y  = rand(0, H);
-            this.r  = rand(0.5, 2.2);
-            this.vx = rand(-0.25, 0.25);
-            this.vy = rand(-0.35, -0.05);
-            this.alpha = rand(0.2, 0.7);
+            this.x     = rand(0, W);
+            this.y     = rand(0, H);
+            this.r     = rand(0.5, 2.0);
+            this.vx    = rand(-0.2, 0.2);
+            this.vy    = rand(-0.3, -0.05);
+            this.alpha = rand(0.2, 0.6);
             this.color = Math.random() > 0.6 ? '#FF5A36' : '#ffffff';
         }
         update() {
@@ -710,44 +732,54 @@
             if (this.y < -5 || this.x < -5 || this.x > W + 5) this.reset();
         }
         draw() {
-            ctx.save();
             ctx.globalAlpha = this.alpha;
             ctx.fillStyle   = this.color;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
             ctx.fill();
-            ctx.restore();
         }
     }
 
-    for (let i = 0; i < 80; i++) particles.push(new Particle());
+    for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
 
-    (function loop() {
-        ctx.clearRect(0, 0, W, H);
+    let rafId;
+    function loop() {
+        ctx.fillStyle = '#111111';
+        ctx.globalAlpha = 1;
+        ctx.fillRect(0, 0, W, H);
         particles.forEach(p => { p.update(); p.draw(); });
-        requestAnimationFrame(loop);
-    })();
+        rafId = requestAnimationFrame(loop);
+    }
+    loop();
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) cancelAnimationFrame(rafId);
+        else loop();
+    });
 })();
 
 
-/* ── 2. 스크롤 진행 바 ── */
+
+/* ── 2. 스크롤 진행 바 + 네비게이션 scrolled (rAF throttle 통합) ── */
 const progressBar = document.getElementById('progress-bar');
-function updateProgress() {
-    const scrolled = window.scrollY;
-    const total    = document.documentElement.scrollHeight - window.innerHeight;
-    progressBar.style.width = (scrolled / total * 100) + '%';
+const navbar      = document.getElementById('navbar');
+let   ticking     = false;
+
+function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+        const sy    = window.scrollY;
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        progressBar.style.width = (sy / total * 100) + '%';
+        navbar.classList.toggle('scrolled', sy > 50);
+        ticking = false;
+    });
 }
-window.addEventListener('scroll', updateProgress, { passive: true });
+window.addEventListener('scroll', onScroll, { passive: true });
 
 
-/* ── 3. 네비게이션 scrolled 클래스 ── */
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 50);
-}, { passive: true });
-
-
-/* ── 4. Intersection Observer: reveal 애니메이션 ── */
+/* ── 3. Intersection Observer: reveal ── */
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -755,69 +787,54 @@ const revealObserver = new IntersectionObserver((entries) => {
             revealObserver.unobserve(entry.target);
         }
     });
-}, { rootMargin: '0px 0px -60px 0px', threshold: 0.08 });
+}, { rootMargin: '0px 0px -50px 0px', threshold: 0.07 });
 
 document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
-    revealObserver.observe(el);
-});
-
-// 페이지 첫 로드 시 뷰포트 안 요소 즉시 표시
-window.addEventListener('load', () => {
-    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 40) el.classList.add('visible');
-    });
+    /* 이미 뷰포트 안 요소는 즉시 표시 → 별도 load 이벤트 불필요 */
+    if (el.getBoundingClientRect().top < window.innerHeight - 20) {
+        el.classList.add('visible');
+    } else {
+        revealObserver.observe(el);
+    }
 });
 
 
-/* ── 5-0. 이메일 복사 ── */
+/* ── 4. 이메일 복사 ── */
 function copyEmail() {
     const email = 'yjh4334@naver.com';
-    navigator.clipboard.writeText(email).then(() => {
-        const btn = document.getElementById('email-btn-text');
-        const orig = btn.textContent;
-        btn.textContent = '✓ 복사됨!';
-        setTimeout(() => { btn.textContent = orig; }, 2000);
-    }).catch(() => {
-        // fallback
-        const ta = document.createElement('textarea');
-        ta.value = email;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        const btn = document.getElementById('email-btn-text');
+    const btn   = document.getElementById('email-btn-text');
+    function done() {
         btn.textContent = '✓ 복사됨!';
         setTimeout(() => { btn.textContent = 'yjh4334@naver.com'; }, 2000);
+    }
+    navigator.clipboard.writeText(email).then(done).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = email; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+        done();
     });
 }
 
-/* ── 5-0b. URL 복사 ── */
+/* ── 5. URL 복사 ── */
 function copyProfileUrl() {
     const url = window.location.href;
-    const btn  = document.getElementById('url-copy-text');
-    const disp = document.getElementById('url-display');
-
-    function onSuccess() {
+    const btn = document.getElementById('url-copy-text');
+    function done() {
         btn.textContent = '✓ 복사 완료!';
-        setTimeout(() => {
-            btn.textContent = '프로필 URL 복사';
-        }, 2000);
+        setTimeout(() => { btn.textContent = '프로필 URL 복사'; }, 2000);
     }
-
-    navigator.clipboard.writeText(url).then(onSuccess).catch(() => {
+    navigator.clipboard.writeText(url).then(done).catch(() => {
         const ta = document.createElement('textarea');
-        ta.value = url;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        onSuccess();
+        ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+        done();
     });
 }
 
-/* ── 5. 네비게이션 active 링크 ── */
-const navLinks  = document.querySelectorAll('.nav-link');
+/* ── 6. 네비게이션 active 링크 ── */
+const navLinks   = document.querySelectorAll('.nav-link');
 const sectionEls = document.querySelectorAll('section[id], header[id], footer[id]');
 
 function setActive(id) {
@@ -831,8 +848,7 @@ const secObserver = new IntersectionObserver((entries) => {
 }, { rootMargin: '-35% 0px -58% 0px', threshold: 0 });
 sectionEls.forEach(s => secObserver.observe(s));
 
-
-/* ── 6. 스무스 앵커 스크롤 (navbar offset 보정) ── */
+/* ── 7. 스무스 앵커 스크롤 ── */
 function smoothScrollTo(href) {
     const target = document.querySelector(href);
     if (!target) return;
