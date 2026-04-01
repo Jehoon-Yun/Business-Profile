@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>윤제훈 | 비즈니스 프로필</title>
+    <title>윤제훈 | 연쇄 창업가 비즈니스 프로필</title>
     <meta property="og:title" content="윤제훈 | 아이디어를 매출로 바꾸는 사람">
     <meta property="og:description" content="20세 첫 창업, 누적 매출 11억. 실행으로 증명하는 연쇄 창업가의 비즈니스 프로필입니다.">
 
@@ -34,18 +34,13 @@
             color: #F8FAFC;
             font-family: 'Pretendard', sans-serif;
             overflow-x: hidden;
-            /* 전체 텍스트 선택·복사 비활성화 */
+        }
+        /* UI 요소만 선택 비활성화 (본문 텍스트는 복사 가능) */
+        #navbar, .exp-link-btn, .strength-icon, a, button {
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-        }
-        /* 의도한 복사 버튼은 선택 허용 (접근성 유지) */
-        #email-btn-text,
-        #url-copy-text {
-            -webkit-user-select: text;
-            -moz-user-select: text;
-            user-select: text;
         }
 
         /* ── 배경 파티클 캔버스 ── */
@@ -356,7 +351,7 @@
         <!-- 사진 (크고 원형, 레퍼런스 스타일) -->
         <div class="reveal delay-2 flex flex-col items-center gap-5">
             <div class="hero-photo-wrap">
-                                <img src="profile.jpg" alt="윤제훈 프로필" class="hero-photo"
+                                <img src="images/profile.jpg" alt="윤제훈 프로필" class="hero-photo"
                      loading="eager" decoding="async" fetchpriority="high">
             </div>
             <div>
@@ -396,7 +391,7 @@
                 <div>
                     <div class="text-xs text-gray-500 font-mono mb-1">2년 누적 매출</div>
                     <div class="text-2xl md:text-3xl font-extrabold text-accent font-mono tracking-tight">
-                        ₩<span class="count-up" data-target="1100000000" data-prefix="₩" data-suffix="">1,100,000,000</span>+
+                        <span class="count-up" data-target="1100000000" data-prefix="₩" data-suffix="+">1,100,000,000</span>
                     </div>
                 </div>
                 <div class="text-xs text-gray-600 font-mono">KRW</div>
@@ -880,20 +875,21 @@ const countObserver = new IntersectionObserver((entries, observer) => {
         if (!entry.isIntersecting) return;
         const el       = entry.target;
         const target   = parseInt(el.getAttribute('data-target'), 10);
+        const prefix   = el.getAttribute('data-prefix') || '';
+        const suffix   = el.getAttribute('data-suffix') || '';
         const duration = 2000;
         let startTime  = null;
 
         function animationStep(timestamp) {
             if (!startTime) startTime = timestamp;
             const progress = timestamp - startTime;
-            /* easeOutQuart: 처음엔 빠르게, 끝에 고급스럽게 감속 */
             const easeOut = 1 - Math.pow(1 - Math.min(progress / duration, 1), 4);
             const current = Math.floor(easeOut * target);
-            el.textContent = current.toLocaleString();
+            el.textContent = prefix + current.toLocaleString() + suffix;
             if (progress < duration) {
                 requestAnimationFrame(animationStep);
             } else {
-                el.textContent = target.toLocaleString(); /* 최종값 보정 */
+                el.textContent = prefix + target.toLocaleString() + suffix; /* 최종값 보정 */
             }
         }
         requestAnimationFrame(animationStep);
