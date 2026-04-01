@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>윤제훈 | 비즈니스 프로필</title>
+    <title>윤제훈 | 연쇄 창업가 비즈니스 프로필</title>
     <meta property="og:title" content="윤제훈 | 아이디어를 매출로 바꾸는 사람">
     <meta property="og:description" content="20세 첫 창업, 누적 매출 11억. 실행으로 증명하는 연쇄 창업가의 비즈니스 프로필입니다.">
 
@@ -112,11 +112,13 @@
         /* ── 스크롤 진행 바 ── */
         #progress-bar {
             position: fixed; top: 56px; left: 0;
-            height: 2px; width: 0%;
+            height: 2px;
+            width: 100%;                              /* 항상 가로로 가득채움 */
             background: linear-gradient(90deg, #FF5A36, #ff9500);
             z-index: 60;
-            transition: width 0.08s linear;
-            will-change: width;
+            transform-origin: left;                   /* 왼쪽 기준으로 오른쪽으로 늘어남 */
+            transform: scaleX(0);                     /* 초기값: 안 보임 */
+            will-change: transform;                   /* width 대신 transform GPU 가속 */
         }
 
         /* ── HERO 사진 ── */
@@ -354,7 +356,7 @@
         <!-- 사진 (크고 원형, 레퍼런스 스타일) -->
         <div class="reveal delay-2 flex flex-col items-center gap-5">
             <div class="hero-photo-wrap">
-                <img src="profile.jpg" alt="윤제훈 프로필" class="hero-photo">
+                <img src="images/profile.jpg" alt="윤제훈 프로필" class="hero-photo">
             </div>
             <div>
                 <p class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">윤제훈</p>
@@ -781,7 +783,8 @@ const navbar      = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
     const sy    = window.scrollY;
     const total = document.documentElement.scrollHeight - window.innerHeight;
-    progressBar.style.width = (sy / total * 100) + '%';
+    const scrollRatio = sy / total;
+    progressBar.style.transform = `scaleX(${scrollRatio})`; /* Reflow 없는 GPU 변환 */
     navbar.classList.toggle('scrolled', sy > 50);
 }, { passive: true });
 
