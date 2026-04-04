@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>윤제훈 | 비즈니스 프로필</title>
     <!-- 파비콘 -->
-    <link rel="icon" href="images/favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
     <!-- PWA Manifest -->
     <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#FF5A36">
     <meta property="og:title" content="윤제훈 | 아이디어를 매출로 바꾸는 사람">
     <meta property="og:description" content="20세 첫 창업, 누적 매출 11억. 실행으로 증명하는 연쇄 창업가의 비즈니스 프로필입니다.">
+    <meta property="og:image" content="https://jehoon-yun.github.io/Business-Profile/images/profile.jpg">
+    <meta property="og:url" content="https://jehoon-yun.github.io/Business-Profile/">
+    <meta property="og:type" content="website">
 
     <!-- 폰트 preconnect / preload -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -674,6 +677,7 @@
             </a>
             <!-- 이메일: 파란 컬러 (클릭 시 복사) -->
             <button onclick="copyEmail()"
+               aria-label="이메일 주소 복사하기"
                class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm cursor-pointer whitespace-nowrap"
                style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.4); color:#60a5fa;">
                 <svg class="contact-svg-icon" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -693,6 +697,7 @@
             </a>
             <!-- URL 복사: 주황 컬러 -->
             <button onclick="copyProfileUrl()"
+                    aria-label="프로필 URL 클립보드에 복사하기"
                     class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm cursor-pointer whitespace-nowrap"
                     style="background:rgba(255,90,54,0.1); border:1px solid rgba(255,90,54,0.4); color:#FF5A36;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#FF5A36" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -726,8 +731,12 @@
     }
     resize();
     let lastWidth = window.innerWidth;
+    let resizeTimer;
     window.addEventListener('resize', () => {
-        if (window.innerWidth !== lastWidth) { lastWidth = window.innerWidth; resize(); }
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            if (window.innerWidth !== lastWidth) { lastWidth = window.innerWidth; resize(); }
+        }, 150);
     }, { passive: true });
 
     function rand(a, b) { return Math.random() * (b - a) + a; }
@@ -885,7 +894,7 @@ const countObserver = new IntersectionObserver((entries, observer) => {
         const target   = parseInt(el.getAttribute('data-target'), 10);
         const prefix   = el.getAttribute('data-prefix') || '';
         const suffix   = el.getAttribute('data-suffix') || '';
-        const duration = 2000;
+        const duration = 2500;
         let startTime  = null;
 
         function animationStep(timestamp) {
