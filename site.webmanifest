@@ -2,37 +2,37 @@
   "name": "윤제훈 비즈니스 프로필",
   "short_name": "윤제훈",
   "description": "20세 첫 창업, 누적 매출 11억. 실행으로 증명하는 연쇄 창업가의 비즈니스 프로필입니다.",
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#111111",
   "theme_color": "#FF5A36",
   "icons": [
     {
-      "src": "images/favicon-16.png",
+      "src": "images/favicon-16x16.png",
       "sizes": "16x16",
       "type": "image/png"
     },
     {
-      "src": "images/favicon-32.png",
+      "src": "images/favicon-32x32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "images/favicon-180.png",
+      "src": "images/apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png"
     },
     {
-      "src": "images/favicon-192.png",
+      "src": "images/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
     },
     {
-      "src": "images/favicon-512.png",
+      "src": "images/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
     }
   ]
 }
