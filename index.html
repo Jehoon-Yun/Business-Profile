@@ -310,6 +310,8 @@
             animation: bounceY 2s ease-in-out infinite;
             transition: opacity 0.3s ease;
         }
+
+
     </style>
 </head>
 <body class="antialiased selection:bg-accent selection:text-white">
@@ -484,7 +486,7 @@
                     <li>대학생 타겟 광고대행사 창업</li>
                     <li class="text-white font-semibold">창업 1년 내 월 매출 6,800만 원 기록</li>
                     <li>국내외 대기업 마케팅 캠페인 기획 및 수행<br class="md:hidden"> (신한카드, 네이버페이, 필립모리스, 메이투 등)</li>
-                    <li>동국대학교 캠퍼스타운 입주 기업 선정</li>
+                    <li>전국 대학생 서포터즈·프리랜서 1,400명+ 네트워크 구축 및 운영</li>
                 </ul>
             </div>
 
@@ -617,6 +619,13 @@
                     </div>
                 </li>
                 <li class="flex items-start gap-3 reveal delay-4">
+                    <span class="text-xl flex-shrink-0 mt-0.5">🏛️</span>
+                    <div>
+                        <p class="text-gray-200 text-sm font-medium leading-snug">동국대학교 캠퍼스타운 입주 기업 선정</p>
+                        <p class="text-accent text-xs font-mono mt-0.5">유니브립 · 산호초메디컬</p>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3 reveal delay-5">
                     <span class="text-xl flex-shrink-0 mt-0.5">📈</span>
                     <div>
                         <p class="text-gray-200 text-sm font-medium leading-snug">토스증권 실전투자대회 3천만 원 리그 <strong class="text-white">Top 100</strong></p>
@@ -628,10 +637,23 @@
 
         <div class="space-y-5">
             <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal">EDUCATION</h2>
-            <div class="glass-card p-6 rounded-2xl hover-up reveal delay-1">
-                <h3 class="text-lg font-bold text-white">🎓 건국대학교</h3>
-                <p class="text-gray-300 mt-1.5">산업공학과 재학</p>
-                <p class="text-gray-500 text-sm mt-1">2029년 2월 졸업 예정</p>
+            <div class="glass-card p-6 rounded-2xl hover-up reveal delay-1" style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+                <div>
+                    <h3 class="text-lg font-bold text-white">🎓 건국대학교</h3>
+                    <p class="text-gray-300 mt-1.5">산업공학과 재학</p>
+                    <p class="text-gray-500 text-sm mt-1">2029년 2월 졸업 예정</p>
+                </div>
+                <img src="images/konkuk-logo.png"
+                     alt="건국대학교 로고"
+                     draggable="false"
+                     aria-hidden="true"
+                     style="
+                         width: 82px;
+                         height: 82px;
+                         object-fit: contain;
+                         flex-shrink: 0;
+                         opacity: 0.5;
+                     ">
             </div>
 
             <!-- 대한민국 공군 (MILITARY 섹션) -->
@@ -914,6 +936,8 @@ const countObserver = new IntersectionObserver((entries, observer) => {
     });
 }, { threshold: 0.5 });
 countElements.forEach(el => countObserver.observe(el));
+
+
 </script>
 
 </body>
