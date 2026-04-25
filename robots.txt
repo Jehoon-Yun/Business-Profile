@@ -1,0 +1,24 @@
+# robots.txt for 윤제훈 비즈니스 프로필
+# 모든 검색엔진 봇이 사이트를 자유롭게 크롤링하도록 허용
+
+User-agent: *
+Allow: /
+
+# AI 크롤러도 허용 (ChatGPT, Claude, Perplexity 등에서 검색되도록)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# 사이트맵 위치 알림
+Sitemap: https://jehoon-yun.github.io/Business-Profile/sitemap.xml
