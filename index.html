@@ -72,6 +72,36 @@
         "대학생 마케팅",
         "의료 플랫폼"
       ],
+      "founder": [
+        {
+          "@type": "Organization",
+          "name": "유니브립",
+          "alternateName": "UNIVLIP"
+        },
+        {
+          "@type": "Organization",
+          "name": "림픽컴퍼니"
+        },
+        {
+          "@type": "Organization",
+          "name": "산호초메디컬",
+          "url": "https://sanhocho-medical-wf.com/"
+        },
+        {
+          "@type": "Organization",
+          "name": "에셋코치"
+        }
+      ],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "디렉터홀딩스",
+        "url": "https://www.the-director.co.kr/"
+      },
+      "memberOf": {
+        "@type": "Organization",
+        "name": "대한민국 공군",
+        "alternateName": "Republic of Korea Air Force"
+      },
       "sameAs": [
         "https://instagram.com/yunjehoon",
         "https://www.instagram.com/assetcoach0/"
@@ -94,6 +124,18 @@
             color: #F8FAFC;
             font-family: 'Pretendard', sans-serif;
             overflow-x: hidden;
+        }
+        /* 스크린리더·검색엔진 전용: 시각적으로는 숨기지만 접근성 트리에는 노출 */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
         /* UI 요소만 선택 비활성화 (본문 텍스트는 복사 가능) */
         #navbar, .exp-link-btn, .strength-icon, a, button {
@@ -405,6 +447,7 @@
         <!-- 타이틀 -->
         <div class="reveal delay-1">
             <h1 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
+                <span class="sr-only">윤제훈 — </span>
                 아이디어를<br class="md:hidden"/>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-orange-400"> 매출로 바꾸는 사람</span>
             </h1>
