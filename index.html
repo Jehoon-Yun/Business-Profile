@@ -181,6 +181,8 @@
 
         /* ── Navbar ── */
         #navbar {
+            position: fixed;
+            z-index: 9999;
             background: rgba(17,17,17,0.88);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -402,6 +404,55 @@
             transition: opacity 0.3s ease;
         }
 
+        /* ── Education / Military 섹션 ── */
+        .konkuk-logo {
+            width: 82px;
+            height: 82px;
+            object-fit: contain;
+            flex-shrink: 0;
+            opacity: 0.5;
+        }
+        .military-badge {
+            background: rgba(37,211,102,0.12);
+            color: #25D366;
+            border: 1px solid rgba(37,211,102,0.35);
+        }
+
+        /* ── Contact 섹션 ── */
+        .contact-heading {
+            font-size: clamp(1.25rem, 5vw, 1.875rem);
+            white-space: nowrap;
+        }
+        /* 4개 버튼 컬러 변형 */
+        .btn-kakao {
+            background: rgba(254,229,0,0.1);
+            border: 1px solid rgba(254,229,0,0.4);
+            color: #FEE500;
+        }
+        .btn-email {
+            background: rgba(59,130,246,0.1);
+            border: 1px solid rgba(59,130,246,0.4);
+            color: #60a5fa;
+        }
+        .btn-url {
+            background: rgba(255,90,54,0.1);
+            border: 1px solid rgba(255,90,54,0.4);
+            color: #FF5A36;
+        }
+        .btn-instagram {
+            background: linear-gradient(135deg, rgba(255,216,121,0.15), rgba(255,84,62,0.15), rgba(193,53,132,0.15), rgba(88,81,219,0.15));
+            border: 1.5px solid transparent;
+            background-clip: padding-box;
+            box-shadow: 0 0 0 1.5px rgba(225,48,108,0.5);
+            position: relative;
+        }
+        /* URL 복사 버튼 SVG는 다른 SVG 아이콘과 사이즈가 약간 다름 */
+        .url-svg-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
         /* ── 키보드 포커스 인디케이터 (Tab 이동 시에만 노출) ── */
         a:focus-visible,
         button:focus-visible {
@@ -444,7 +495,7 @@
 <div id="progress-bar"></div>
 
 <!-- ─── 네비게이션 ─── -->
-<nav id="navbar" class="fixed top-0 left-0 right-0" style="position:fixed;z-index:9999;">
+<nav id="navbar" class="fixed top-0 left-0 right-0">
     <div class="max-w-4xl mx-auto px-5 h-14 flex items-center justify-between">
         <a href="#hero" class="font-extrabold text-white tracking-tight text-base hover:text-accent transition-colors duration-200">
             윤제훈 <span class="text-accent">·</span> YJH
@@ -763,7 +814,7 @@
 
         <div class="space-y-5">
             <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal">EDUCATION</h2>
-            <div class="glass-card p-6 rounded-2xl hover-up reveal delay-1" style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+            <div class="glass-card p-6 rounded-2xl hover-up reveal delay-1 flex items-center justify-between gap-4">
                 <div>
                     <h3 class="text-lg font-bold text-white">🎓 건국대학교</h3>
                     <p class="text-gray-300 mt-1.5">산업공학과 재학</p>
@@ -771,27 +822,20 @@
                 </div>
                 <img src="images/konkuk-logo.webp"
                      alt="건국대학교 로고"
+                     class="konkuk-logo"
                      draggable="false"
-                     aria-hidden="true"
-                     style="
-                         width: 82px;
-                         height: 82px;
-                         object-fit: contain;
-                         flex-shrink: 0;
-                         opacity: 0.5;
-                     ">
+                     aria-hidden="true">
             </div>
 
             <!-- 대한민국 공군 (MILITARY 섹션) -->
-            <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal" style="padding-top:0.5rem;">MILITARY</h2>
+            <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal pt-2">MILITARY</h2>
             <div class="glass-card p-6 rounded-2xl hover-up reveal delay-1">
                 <div class="flex items-start justify-between">
                     <div>
                         <h3 class="text-lg font-bold text-white">✈️ 대한민국 공군</h3>
                         <p class="text-accent font-medium text-sm mt-0.5">기반통신체계정비병</p>
                     </div>
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold flex-shrink-0 mt-0.5"
-                          style="background:rgba(37,211,102,0.12); color:#25D366; border:1px solid rgba(37,211,102,0.35);">
+                    <span class="military-badge inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold flex-shrink-0 mt-0.5">
                         <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#25D366] animate-pulse"></span>
                         복무중
                     </span>
@@ -805,7 +849,7 @@
     <!-- ⑥ CONTACT -->
     <footer id="contact" class="pt-10 pb-8 border-t border-gray-800 text-center space-y-7">
         <div class="reveal">
-            <h2 class="font-bold text-white" style="font-size:clamp(1.25rem,5vw,1.875rem); white-space:nowrap;">함께 만들어 갈 준비가 되어 있습니다</h2>
+            <h2 class="contact-heading font-bold text-white">함께 만들어 갈 준비가 되어 있습니다</h2>
             <p class="text-gray-400 text-sm md:text-base mt-3 leading-relaxed">
                 새로운 사업 기회, 협업 제안, 마케팅 파트너십 등<br class="hidden md:block"/>
                 어떤 주제든 편하게 연락 주세요. 빠르게 답변 드리겠습니다.
@@ -818,18 +862,16 @@
             <!-- ① 카카오톡: 카카오 노랑 컬러 -->
             <a href="https://open.kakao.com/o/saMAi1ri" target="_blank" rel="noopener noreferrer"
                aria-label="카카오톡 오픈프로필로 이동"
-               class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm whitespace-nowrap"
-               style="background:rgba(254,229,0,0.1); border:1px solid rgba(254,229,0,0.4); color:#FEE500;">
+               class="btn-kakao flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm whitespace-nowrap">
                 <svg class="contact-svg-icon" viewBox="0 0 24 24" fill="#FEE500" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 3C6.48 3 2 6.58 2 11c0 2.84 1.86 5.32 4.66 6.78-.2.7-.74 2.6-.84 3-.14.5.18.5.38.36.16-.1 2.52-1.7 3.54-2.4.74.1 1.5.16 2.26.16 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
                 </svg>
                 <span>카카오톡</span>
             </a>
             <!-- ② 이메일: 파란 컬러 (클릭 시 복사) -->
-            <button onclick="copyEmail()"
+            <button id="email-copy-btn"
                aria-label="이메일 주소 복사하기"
-               class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm cursor-pointer whitespace-nowrap"
-               style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.4); color:#60a5fa;">
+               class="btn-email flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm cursor-pointer whitespace-nowrap">
                 <svg class="contact-svg-icon" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="4" width="20" height="16" rx="2"/>
                     <polyline points="2,4 12,13 22,4"/>
@@ -837,12 +879,10 @@
                 <span id="email-btn-text">yjh4334@naver.com</span>
             </button>
             <!-- ③ URL 복사: 주황 컬러 -->
-            <button onclick="copyProfileUrl()"
+            <button id="url-copy-btn"
                     aria-label="프로필 URL 클립보드에 복사하기"
-                    class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm cursor-pointer whitespace-nowrap"
-                    style="background:rgba(255,90,54,0.1); border:1px solid rgba(255,90,54,0.4); color:#FF5A36;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#FF5A36" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     style="width:18px;height:18px;flex-shrink:0;">
+                    class="btn-url flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm cursor-pointer whitespace-nowrap">
+                <svg class="url-svg-icon" viewBox="0 0 24 24" fill="none" stroke="#FF5A36" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
                     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
                 </svg>
@@ -850,15 +890,13 @@
             </button>
             <!-- ④ 인스타그램: 그라데이션 배경/테두리, 흰색 아이콘 -->
             <a href="https://instagram.com/yunjehoon" target="_blank" rel="noopener noreferrer"
-               class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm text-white whitespace-nowrap"
-               style="background:linear-gradient(135deg,rgba(255,216,121,0.15),rgba(255,84,62,0.15),rgba(193,53,132,0.15),rgba(88,81,219,0.15)); border:1.5px solid transparent; background-clip:padding-box; box-shadow:0 0 0 1.5px rgba(225,48,108,0.5); position:relative;">
-                <svg class="ig-gradient-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white" style="width:20px;height:20px;flex-shrink:0;">
+               class="btn-instagram flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm text-white whitespace-nowrap">
+                <svg class="ig-gradient-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                 </svg>
                 <span>@yunjehoon</span>
             </a>
         </div>
-        <p id="url-display" class="hidden"></p>
 
         <p class="text-gray-400 text-xs pt-2">© 2026 Jehoon Yun. All rights reserved.</p>
     </footer>
@@ -975,7 +1013,7 @@ document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => 
 });
 
 
-/* ── 4 & 5. 클립보드 복사 (통합 헬퍼 함수) ── */
+/* ── 4 & 5. 클립보드 복사 (통합 헬퍼 함수 + 이벤트 리스너) ── */
 function copyToClipboard(text, btnId, defaultText, successText) {
     const btn  = document.getElementById(btnId);
     const done = () => {
@@ -993,8 +1031,21 @@ function copyToClipboard(text, btnId, defaultText, successText) {
         done();
     }
 }
-function copyEmail()      { copyToClipboard('yjh4334@naver.com',   'email-btn-text', 'yjh4334@naver.com',  '✓ 복사됨!'); }
-function copyProfileUrl() { copyToClipboard('https://jehoon-yun.github.io/Business-Profile/', 'url-copy-text', '프로필 URL 복사', '✓ 복사 완료!'); }
+
+/* 이메일 복사 버튼 */
+const emailCopyBtn = document.getElementById('email-copy-btn');
+if (emailCopyBtn) {
+    emailCopyBtn.addEventListener('click', () => {
+        copyToClipboard('yjh4334@naver.com', 'email-btn-text', 'yjh4334@naver.com', '✓ 복사됨!');
+    });
+}
+/* 프로필 URL 복사 버튼 */
+const urlCopyBtn = document.getElementById('url-copy-btn');
+if (urlCopyBtn) {
+    urlCopyBtn.addEventListener('click', () => {
+        copyToClipboard('https://jehoon-yun.github.io/Business-Profile/', 'url-copy-text', '프로필 URL 복사', '✓ 복사 완료!');
+    });
+}
 
 /* ── 6. 네비게이션 active 링크 ── */
 const navLinks   = document.querySelectorAll('.nav-link');
