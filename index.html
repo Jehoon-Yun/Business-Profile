@@ -402,13 +402,43 @@
             transition: opacity 0.3s ease;
         }
 
+        /* ── 키보드 포커스 인디케이터 (Tab 이동 시에만 노출) ── */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #FF5A36;
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+        /* 둥근 버튼·링크는 outline-offset이 더 잘 어울리도록 보정 */
+        .rounded-full:focus-visible,
+        .nav-link:focus-visible {
+            outline-offset: 4px;
+        }
+
+        /* ── 사용자가 "동작 줄이기" 설정을 켰을 때 ── */
+        @media (prefers-reduced-motion: reduce) {
+            /* 모든 애니메이션·트랜지션을 즉시 종료 (멀미·전정 장애 사용자 보호) */
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            /* 배경 파티클 애니메이션 자체를 숨김 */
+            #particle-canvas { display: none; }
+            /* reveal 애니메이션 즉시 표시 */
+            .reveal, .reveal-left, .reveal-right {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
 
     </style>
 </head>
 <body class="antialiased selection:bg-accent selection:text-white">
 
 <!-- 배경 파티클 -->
-<canvas id="particle-canvas"></canvas>
+<canvas id="particle-canvas" aria-hidden="true"></canvas>
 
 <!-- 스크롤 진행 바 -->
 <div id="progress-bar"></div>
@@ -839,6 +869,9 @@
 
 /* ── 1. 배경 파티클 ── */
 (function() {
+    /* "동작 줄이기" 설정이 켜진 사용자는 파티클 자체를 실행하지 않음 (배터리·CPU 절약) */
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const canvas = document.getElementById('particle-canvas');
     const ctx    = canvas.getContext('2d'); /* alpha 활성화: 파티클 블렌딩·안티앨리어싱 복원 */
     let W, H, particles = [];
@@ -1005,6 +1038,8 @@ if (scrollHint) {
 
 /* ── 8. 숫자 카운트업 애니메이션 (Intersection Observer 연동) ── */
 const countElements = document.querySelectorAll('.count-up');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 const countObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -1012,6 +1047,14 @@ const countObserver = new IntersectionObserver((entries, observer) => {
         const target   = parseInt(el.getAttribute('data-target'), 10);
         const prefix   = el.getAttribute('data-prefix') || '';
         const suffix   = el.getAttribute('data-suffix') || '';
+
+        /* "동작 줄이기" 켠 사용자에게는 카운트업 없이 최종값만 표시 */
+        if (prefersReducedMotion) {
+            el.textContent = prefix + target.toLocaleString() + suffix;
+            observer.unobserve(el);
+            return;
+        }
+
         const duration = 2500;
         let startTime  = null;
 
