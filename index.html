@@ -57,7 +57,6 @@
       "jobTitle": "Serial Entrepreneur",
       "description": "20세에 첫 창업을 시작해 광고·커머스·의료 플랫폼 분야에서 4번의 창업과 누적 매출 11억 원을 만들어낸 연쇄 창업가.",
       "email": "mailto:yjh4334@naver.com",
-      "telephone": "+82-10-4170-1644",
       "nationality": "Korean",
       "alumniOf": {
         "@type": "CollegeOrUniversity",
@@ -104,7 +103,8 @@
       },
       "sameAs": [
         "https://instagram.com/yunjehoon",
-        "https://www.instagram.com/assetcoach0/"
+        "https://www.instagram.com/assetcoach0/",
+        "https://open.kakao.com/o/saMAi1ri"
       ]
     }
     </script>
@@ -813,17 +813,19 @@
         </div>
 
         <!-- 연락처 버튼 4개: 모바일 4행 1열 / PC 2행 2열 -->
+        <!-- 순서: ① 카카오톡  ② 이메일  ③ URL 복사  ④ 인스타그램 -->
         <div class="flex flex-col md:grid md:grid-cols-2 justify-center items-center gap-3 reveal delay-1 md:max-w-xl md:mx-auto">
-            <!-- 전화: 초록 컬러 -->
-            <a href="tel:010-4170-1644"
+            <!-- ① 카카오톡: 카카오 노랑 컬러 -->
+            <a href="https://open.kakao.com/o/saMAi1ri" target="_blank" rel="noopener noreferrer"
+               aria-label="카카오톡 오픈프로필로 이동"
                class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm whitespace-nowrap"
-               style="background:rgba(37,211,102,0.1); border:1px solid rgba(37,211,102,0.4); color:#25D366;">
-                <svg class="contact-svg-icon" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.16 6.16l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+               style="background:rgba(254,229,0,0.1); border:1px solid rgba(254,229,0,0.4); color:#FEE500;">
+                <svg class="contact-svg-icon" viewBox="0 0 24 24" fill="#FEE500" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3C6.48 3 2 6.58 2 11c0 2.84 1.86 5.32 4.66 6.78-.2.7-.74 2.6-.84 3-.14.5.18.5.38.36.16-.1 2.52-1.7 3.54-2.4.74.1 1.5.16 2.26.16 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
                 </svg>
-                <span>010-4170-1644</span>
+                <span>카카오톡</span>
             </a>
-            <!-- 이메일: 파란 컬러 (클릭 시 복사) -->
+            <!-- ② 이메일: 파란 컬러 (클릭 시 복사) -->
             <button onclick="copyEmail()"
                aria-label="이메일 주소 복사하기"
                class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm cursor-pointer whitespace-nowrap"
@@ -834,16 +836,7 @@
                 </svg>
                 <span id="email-btn-text">yjh4334@naver.com</span>
             </button>
-            <!-- 인스타그램: 그라데이션 배경/테두리, 흰색 아이콘 -->
-            <a href="https://instagram.com/yunjehoon" target="_blank" rel="noopener noreferrer"
-               class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm text-white whitespace-nowrap"
-               style="background:linear-gradient(135deg,rgba(255,216,121,0.15),rgba(255,84,62,0.15),rgba(193,53,132,0.15),rgba(88,81,219,0.15)); border:1.5px solid transparent; background-clip:padding-box; box-shadow:0 0 0 1.5px rgba(225,48,108,0.5); position:relative;">
-                <svg class="ig-gradient-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white" style="width:20px;height:20px;flex-shrink:0;">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-                <span>@yunjehoon</span>
-            </a>
-            <!-- URL 복사: 주황 컬러 -->
+            <!-- ③ URL 복사: 주황 컬러 -->
             <button onclick="copyProfileUrl()"
                     aria-label="프로필 URL 클립보드에 복사하기"
                     class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm cursor-pointer whitespace-nowrap"
@@ -855,6 +848,15 @@
                 </svg>
                 <span id="url-copy-text">프로필 URL 복사</span>
             </button>
+            <!-- ④ 인스타그램: 그라데이션 배경/테두리, 흰색 아이콘 -->
+            <a href="https://instagram.com/yunjehoon" target="_blank" rel="noopener noreferrer"
+               class="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm text-white whitespace-nowrap"
+               style="background:linear-gradient(135deg,rgba(255,216,121,0.15),rgba(255,84,62,0.15),rgba(193,53,132,0.15),rgba(88,81,219,0.15)); border:1.5px solid transparent; background-clip:padding-box; box-shadow:0 0 0 1.5px rgba(225,48,108,0.5); position:relative;">
+                <svg class="ig-gradient-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white" style="width:20px;height:20px;flex-shrink:0;">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                <span>@yunjehoon</span>
+            </a>
         </div>
         <p id="url-display" class="hidden"></p>
 
