@@ -30,10 +30,10 @@
 - CSS keyframes를 활용한 부드러운 스크롤 유도 화살표 바운스
 
 ### 접근성 (a11y)
-- `prefers-reduced-motion` 미디어쿼리 지원 — 동작 줄이기 사용자에게 모든 애니메이션/파티클/카운트업 자동 비활성화
 - `focus-visible` 키보드 포커스 인디케이터 (시그니처 오렌지)
 - 배경 캔버스 `aria-hidden="true"` 처리
 - h1에 검색엔진/스크린리더 전용 이름 숨김 텍스트(`sr-only`)
+- 데스크톱·터치 기기 분기 호버 효과 (`@media (hover: hover/none)`)
 
 ### SEO & 메타데이터
 - JSON-LD Schema.org `Person` 타입 — `founder`(4개 회사), `worksFor`, `memberOf` 관계 명시
@@ -97,9 +97,9 @@ README.md
 - JSON-LD에 `founder` (유니브립·림픽컴퍼니·산호초메디컬·에셋코치), `worksFor` (디렉터홀딩스), `memberOf` (대한민국 공군) 관계 추가 — 구글이 인물-조직 관계를 정확히 이해
 
 ### 접근성 보강
-- `prefers-reduced-motion` 미디어쿼리 지원 — 멀미·전정 장애 사용자 보호
 - 키보드 사용자를 위한 `focus-visible` 오렌지 인디케이터
 - 배경 파티클 캔버스에 `aria-hidden` 추가 (스크린리더 무시)
+- 데스크톱·모바일 분기 호버 효과 — 모바일에서 호버 잔여 효과 제거 (`@media (hover: hover/none)`)
 
 ### 개인정보 보호
 - 휴대폰 번호 노출 제거 (페이지·JSON-LD 모두) — 스미싱·스팸 위험 차단
