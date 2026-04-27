@@ -188,9 +188,10 @@
                 -webkit-tap-highlight-color: transparent; /* iOS 기본 회색 플래시 억제 */
             }
             .hover-up:active {
-                transform: translateY(-4px);
-                box-shadow: 0 8px 20px rgba(255,90,54,0.22);
-                transition-duration: 0.1s; /* 빠른 탭에서도 피드백이 보이도록 스냅온 */
+                transform: translateY(-6px) scale(0.98);
+                box-shadow: 0 12px 28px rgba(255,90,54,0.35);
+                background: rgba(30, 41, 59, 0.85);
+                transition-duration: 0.15s;
             }
         }
 
@@ -489,16 +490,19 @@
         }
 
         /* ── 키보드 포커스 인디케이터 (Tab 이동 시에만 노출) ── */
-        a:focus-visible,
-        button:focus-visible {
-            outline: 2px solid #FF5A36;
-            outline-offset: 3px;
-            border-radius: 6px;
-        }
-        /* 둥근 버튼·링크는 outline-offset이 더 잘 어울리도록 보정 */
-        .rounded-full:focus-visible,
-        .nav-link:focus-visible {
-            outline-offset: 4px;
+        /* 키보드 포커스 인디케이터: 데스크톱(마우스 사용) 환경에서만 표시 */
+        /* iOS Safari가 anchor link 탭 후 포커스를 유지하는 quirk 회피 */
+        @media (hover: hover) {
+            a:focus-visible,
+            button:focus-visible {
+                outline: 2px solid #FF5A36;
+                outline-offset: 3px;
+                border-radius: 6px;
+            }
+            .rounded-full:focus-visible,
+            .nav-link:focus-visible {
+                outline-offset: 4px;
+            }
         }
 
     </style>
@@ -1091,6 +1095,8 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
         if (href === '#') return;
         e.preventDefault();
         smoothScrollTo(href);
+        /* iOS Safari가 anchor 탭 후 포커스를 유지하는 quirk 회피 */
+        this.blur();
     });
 });
 
