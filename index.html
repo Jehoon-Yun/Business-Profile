@@ -186,11 +186,14 @@
                 cursor: pointer; /* iOS Safari: :active 발동 조건 (div는 기본적으로 비활성으로 인식됨) */
                 -webkit-tap-highlight-color: transparent; /* iOS 기본 회색 플래시 억제 */
             }
+            /* iOS Safari가 div의 :active를 신뢰성 있게 발동시키도록 .hover-up:active를 transform 대신
+               배경색·테두리·그림자 변화로 표현. .reveal의 transform과 충돌도 회피. */
             .hover-up:active {
-                transform: translateY(-6px) scale(0.98);
-                box-shadow: 0 12px 28px rgba(255,90,54,0.35);
-                background: rgba(30, 41, 59, 0.85);
-                transition-duration: 0.15s;
+                background: rgba(255, 90, 54, 0.18) !important;
+                border-color: rgba(255, 90, 54, 0.6) !important;
+                box-shadow: 0 0 0 2px rgba(255,90,54,0.4),
+                            0 8px 24px rgba(255,90,54,0.3) !important;
+                transition-duration: 0.05s;
             }
         }
 
@@ -528,7 +531,7 @@
 
     </style>
 </head>
-<body class="antialiased selection:bg-accent selection:text-white">
+<body class="antialiased selection:bg-accent selection:text-white" ontouchstart="">
 
 <!-- 배경 파티클 -->
 <canvas id="particle-canvas" aria-hidden="true"></canvas>
