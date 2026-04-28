@@ -186,14 +186,12 @@
                 cursor: pointer; /* iOS Safari: :active 발동 조건 (div는 기본적으로 비활성으로 인식됨) */
                 -webkit-tap-highlight-color: transparent; /* iOS 기본 회색 플래시 억제 */
             }
-            /* iOS Safari가 div의 :active를 신뢰성 있게 발동시키도록 .hover-up:active를 transform 대신
-               배경색·테두리·그림자 변화로 표현. .reveal의 transform과 충돌도 회피. */
+            /* PC 호버와 동일한 시각 효과를 모바일 :active로 복제.
+               .reveal.visible의 transform: translateY(0)을 이기기 위해 !important 사용. */
             .hover-up:active {
-                background: rgba(255, 90, 54, 0.18) !important;
-                border-color: rgba(255, 90, 54, 0.6) !important;
-                box-shadow: 0 0 0 2px rgba(255,90,54,0.4),
-                            0 8px 24px rgba(255,90,54,0.3) !important;
-                transition-duration: 0.05s;
+                transform: translateY(-6px) !important;
+                box-shadow: 0 16px 32px rgba(255,90,54,0.15) !important;
+                transition-duration: 0.1s; /* 빠른 탭에도 보이도록 스냅온 */
             }
         }
 
@@ -370,6 +368,13 @@
         }
         @media (hover: hover) {
             .glass-card:hover .strength-icon {
+                background: rgba(255,90,54,0.2);
+                transform: scale(1.1) rotate(-4deg);
+            }
+        }
+        /* 모바일에서도 카드 누르는 동안 이모지 회전·확대 (PC 호버와 동일) */
+        @media (hover: none) {
+            .glass-card:active .strength-icon {
                 background: rgba(255,90,54,0.2);
                 transform: scale(1.1) rotate(-4deg);
             }
