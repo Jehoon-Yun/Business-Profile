@@ -186,12 +186,12 @@
                 cursor: pointer; /* iOS Safari: :active 발동 조건 (div는 기본적으로 비활성으로 인식됨) */
                 -webkit-tap-highlight-color: transparent; /* iOS 기본 회색 플래시 억제 */
             }
-            /* 터치 시 JS가 .touched 클래스를 추가, 1초 후 제거 → 자연스러운 잔여 효과.
+            /* 터치 시 JS가 .touched 클래스를 추가, 일정 시간 후 제거 → 자연스러운 잔여 효과.
                .reveal.visible의 transform을 이기기 위해 !important 사용. */
             .hover-up.touched {
                 transform: translateY(-6px) !important;
                 box-shadow: 0 16px 32px rgba(255,90,54,0.15) !important;
-                transition-duration: 0.32s; /* 들어올 때도, 나갈 때도 부드럽게 */
+                transition-duration: 0.2s; /* 들어올 때도, 나갈 때도 부드럽게 */
             }
             .glass-card.touched .strength-icon {
                 background: rgba(255,90,54,0.2);
@@ -1139,7 +1139,7 @@ if (scrollHint) {
    터치 기기에서만 실행: hover 가능 기기(데스크톱)는 :hover로 처리되므로 불필요 */
 if (window.matchMedia('(hover: none)').matches) {
     const touchTargets = document.querySelectorAll('.hover-up');
-    const TOUCH_HOLD_MS = 1000; /* 누른 후 효과 유지 시간 (페이드아웃은 CSS transition 0.32s가 추가로 처리) */
+    const TOUCH_HOLD_MS = 400; /* 누른 후 효과 유지 시간 (페이드아웃은 CSS transition 0.2s가 추가로 처리) */
 
     touchTargets.forEach(el => {
         let timeoutId = null;
