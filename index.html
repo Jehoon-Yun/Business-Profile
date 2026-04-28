@@ -186,12 +186,16 @@
                 cursor: pointer; /* iOS Safari: :active 발동 조건 (div는 기본적으로 비활성으로 인식됨) */
                 -webkit-tap-highlight-color: transparent; /* iOS 기본 회색 플래시 억제 */
             }
-            /* PC 호버와 동일한 시각 효과를 모바일 :active로 복제.
-               .reveal.visible의 transform: translateY(0)을 이기기 위해 !important 사용. */
-            .hover-up:active {
+            /* 터치 시 JS가 .touched 클래스를 추가, 1초 후 제거 → 자연스러운 잔여 효과.
+               .reveal.visible의 transform을 이기기 위해 !important 사용. */
+            .hover-up.touched {
                 transform: translateY(-6px) !important;
                 box-shadow: 0 16px 32px rgba(255,90,54,0.15) !important;
-                transition-duration: 0.1s; /* 빠른 탭에도 보이도록 스냅온 */
+                transition-duration: 0.32s; /* 들어올 때도, 나갈 때도 부드럽게 */
+            }
+            .glass-card.touched .strength-icon {
+                background: rgba(255,90,54,0.2);
+                transform: scale(1.1) rotate(-4deg);
             }
         }
 
@@ -368,13 +372,6 @@
         }
         @media (hover: hover) {
             .glass-card:hover .strength-icon {
-                background: rgba(255,90,54,0.2);
-                transform: scale(1.1) rotate(-4deg);
-            }
-        }
-        /* 모바일에서도 카드 누르는 동안 이모지 회전·확대 (PC 호버와 동일) */
-        @media (hover: none) {
-            .glass-card:active .strength-icon {
                 background: rgba(255,90,54,0.2);
                 transform: scale(1.1) rotate(-4deg);
             }
@@ -1136,6 +1133,32 @@ if (scrollHint) {
     window.addEventListener('scroll', () => {
         scrollHint.style.opacity = window.scrollY > 80 ? '0' : '0.4';
     }, { passive: true });
+}
+
+/* ── 7-2. 터치 기기에서 카드 효과 자연스러운 유지 (1초간 .touched 클래스 유지 후 부드럽게 해제) ──
+   터치 기기에서만 실행: hover 가능 기기(데스크톱)는 :hover로 처리되므로 불필요 */
+if (window.matchMedia('(hover: none)').matches) {
+    const touchTargets = document.querySelectorAll('.hover-up');
+    const TOUCH_HOLD_MS = 1000; /* 누른 후 효과 유지 시간 (페이드아웃은 CSS transition 0.32s가 추가로 처리) */
+
+    touchTargets.forEach(el => {
+        let timeoutId = null;
+        el.addEventListener('touchstart', () => {
+            if (timeoutId) clearTimeout(timeoutId);
+            el.classList.add('touched');
+        }, { passive: true });
+
+        const scheduleRemoval = () => {
+            if (timeoutId) clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                el.classList.remove('touched');
+                timeoutId = null;
+            }, TOUCH_HOLD_MS);
+        };
+
+        el.addEventListener('touchend',    scheduleRemoval, { passive: true });
+        el.addEventListener('touchcancel', scheduleRemoval, { passive: true });
+    });
 }
 
 /* ── 8. 숫자 카운트업 애니메이션 (Intersection Observer 연동) ── */
