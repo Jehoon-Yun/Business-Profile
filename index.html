@@ -955,8 +955,11 @@
 'use strict';
 
 /* ── 1. 배경 파티클 ── */
+/* 페이지가 완전히 로드된 뒤에 시작 → 첫 화면 그리기(FCP·LCP)를 방해하지 않음 */
 (function() {
+    function initParticles() {
     const canvas = document.getElementById('particle-canvas');
+    if (!canvas) return;
     const ctx    = canvas.getContext('2d'); /* alpha 활성화: 파티클 블렌딩·안티앨리어싱 복원 */
     let W, H, particles = [];
 
@@ -1019,6 +1022,21 @@
         if (document.hidden) cancelAnimationFrame(rafId);
         else loop();
     });
+    }
+
+    /* 페이지 로드가 끝나고 브라우저가 한가해진 뒤에 입자 시작 */
+    function startWhenIdle() {
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(initParticles, { timeout: 1500 });
+        } else {
+            setTimeout(initParticles, 300);
+        }
+    }
+    if (document.readyState === 'complete') {
+        startWhenIdle();
+    } else {
+        window.addEventListener('load', startWhenIdle, { once: true });
+    }
 })();
 
 
