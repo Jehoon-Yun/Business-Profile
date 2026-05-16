@@ -1045,11 +1045,18 @@
 const progressBar = document.getElementById('progress-bar');
 const navbar      = document.getElementById('navbar');
 
-/* rAF throttle 제거: passive:true 만 유지 → 120Hz 기기에서 밀림 없이 즉각 반응 */
+/* scrollHeight를 매 스크롤마다 재계산하면 레이아웃이 강제로 다시 잡힘.
+   → 처음 1회 + 로드 후 + 창 크기 변경 시에만 계산하고 캐시 */
+let scrollTotal = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+function recomputeScrollTotal() {
+    scrollTotal = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+}
+window.addEventListener('load', recomputeScrollTotal, { once: true });
+window.addEventListener('resize', recomputeScrollTotal, { passive: true });
+
 window.addEventListener('scroll', () => {
-    const sy    = window.scrollY;
-    const total = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
-    const scrollRatio = sy / total;
+    const sy = window.scrollY;
+    const scrollRatio = sy / scrollTotal;
     progressBar.style.transform = `scaleX(${scrollRatio})`; /* Reflow 없는 GPU 변환 */
     navbar.classList.toggle('scrolled', sy > 50);
 }, { passive: true });
@@ -1065,13 +1072,10 @@ const revealObserver = new IntersectionObserver((entries) => {
     });
 }, { rootMargin: '0px 0px -50px 0px', threshold: 0.07 });
 
+/* getBoundingClientRect 동기 측정 제거 → 강제 리플로우 없음.
+   IntersectionObserver가 이미 보이는 요소도 비동기로 알아서 처리 */
 document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
-    /* 이미 뷰포트 안 요소는 즉시 표시 → 별도 load 이벤트 불필요 */
-    if (el.getBoundingClientRect().top < window.innerHeight - 20) {
-        el.classList.add('visible');
-    } else {
-        revealObserver.observe(el);
-    }
+    revealObserver.observe(el);
 });
 
 
