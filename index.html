@@ -167,38 +167,6 @@
             border: 1px solid rgba(255,255,255,0.06);
         }
 
-        /* ── Hover Up ── */
-        .hover-up {
-            transition: transform 0.32s cubic-bezier(.4,0,.2,1),
-                        box-shadow 0.32s cubic-bezier(.4,0,.2,1);
-            will-change: transform; /* 호버 애니메이션 GPU 가속 */
-        }
-        /* 데스크톱(마우스 사용 기기)에서만 호버 효과 */
-        @media (hover: hover) {
-            .hover-up:hover {
-                transform: translateY(-6px);
-                box-shadow: 0 16px 32px rgba(255,90,54,0.15);
-            }
-        }
-        /* 터치 기기에서는 누르는 동안만 효과 (손 떼면 즉시 원상복귀) */
-        @media (hover: none) {
-            .hover-up {
-                cursor: pointer; /* iOS Safari: :active 발동 조건 (div는 기본적으로 비활성으로 인식됨) */
-                -webkit-tap-highlight-color: transparent; /* iOS 기본 회색 플래시 억제 */
-            }
-            /* 터치 시 JS가 .touched 클래스를 추가, 일정 시간 후 제거 → 자연스러운 잔여 효과.
-               .reveal.visible의 transform을 이기기 위해 !important 사용. */
-            .hover-up.touched {
-                transform: translateY(-6px) !important;
-                box-shadow: 0 16px 32px rgba(255,90,54,0.15) !important;
-                transition-duration: 0.2s; /* 들어올 때도, 나갈 때도 부드럽게 */
-            }
-            .glass-card.touched .strength-icon {
-                background: rgba(255,90,54,0.2);
-                transform: scale(1.1) rotate(-4deg);
-            }
-        }
-
         /* ── Navbar 로고 + 모바일 CTA + 히어로 CTA: Tailwind hover 대체 (Tailwind는 hover를 미디어쿼리로 감싸지 않아 모바일 잔여 발생) ── */
         .logo-link,
         .mobile-cta,
@@ -368,13 +336,6 @@
             border: 1px solid rgba(255,90,54,0.22);
             display: flex; align-items: center; justify-content: center;
             font-size: 1.4rem; flex-shrink: 0;
-            transition: background 0.3s, transform 0.3s;
-        }
-        @media (hover: hover) {
-            .glass-card:hover .strength-icon {
-                background: rgba(255,90,54,0.2);
-                transform: scale(1.1) rotate(-4deg);
-            }
         }
 
         /* ── 인스타그램 그라데이션 아이콘 ── */
@@ -397,14 +358,13 @@
             font-weight: 700;
             letter-spacing: 0.03em;
             text-decoration: none;
-            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+            transition: background 0.2s, border-color 0.2s;
             white-space: nowrap;
         }
         @media (hover: hover) {
             .exp-link-btn:hover {
                 background: rgba(255,90,54,0.18);
                 border-color: #FF5A36;
-                transform: translateY(-1px);
             }
         }
         @media (hover: none) {
@@ -619,7 +579,7 @@
 
     <!-- ② STATS -->
     <section id="stats" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div class="glass-card rounded-2xl hover-up reveal delay-1">
+        <div class="glass-card rounded-2xl reveal delay-1">
             <div class="flex items-center justify-between px-6 py-5 gap-4">
                 <div>
                     <div class="text-xs text-gray-500 font-mono mb-1">2년 누적 매출</div>
@@ -630,7 +590,7 @@
                 <div class="text-xs text-gray-600 font-mono">KRW</div>
             </div>
         </div>
-        <div class="glass-card rounded-2xl hover-up reveal delay-2">
+        <div class="glass-card rounded-2xl reveal delay-2">
             <div class="flex items-center justify-between px-6 py-5 gap-4">
                 <div>
                     <div class="text-xs text-gray-500 font-mono mb-1">단일 월 최대 매출</div>
@@ -641,7 +601,7 @@
                 <div class="text-xs text-gray-600 font-mono">KRW / MO.</div>
             </div>
         </div>
-        <div class="glass-card rounded-2xl hover-up reveal delay-3">
+        <div class="glass-card rounded-2xl reveal delay-3">
             <div class="flex items-center justify-between px-6 py-5 gap-4">
                 <div>
                     <div class="text-xs text-gray-500 font-mono mb-1">아이디어 → 첫 수익화</div>
@@ -650,7 +610,7 @@
                 <div class="text-xs text-gray-600 font-mono">TIME TO REVENUE</div>
             </div>
         </div>
-        <div class="glass-card rounded-2xl hover-up reveal delay-4">
+        <div class="glass-card rounded-2xl reveal delay-4">
             <div class="flex items-center justify-between px-6 py-5 gap-4">
                 <div>
                     <div class="text-xs text-gray-500 font-mono mb-1">창업 및 BM 구축</div>
@@ -665,21 +625,21 @@
     <section id="strengths" class="space-y-6">
         <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal">CORE STRENGTHS</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="glass-card p-6 rounded-2xl hover-up flex md:flex-col gap-4 md:gap-3 reveal delay-1">
+            <div class="glass-card p-6 rounded-2xl flex md:flex-col gap-4 md:gap-3 reveal delay-1">
                 <div class="strength-icon">🚀</div>
                 <div>
                     <div class="font-bold text-white text-sm md:text-base mb-1">아이디어 → 매출 전환</div>
                     <div class="text-gray-400 text-xs md:text-sm leading-relaxed">구상에서 실제 매출 발생까지 평균 1개월 이내 실행 완료</div>
                 </div>
             </div>
-            <div class="glass-card p-6 rounded-2xl hover-up flex md:flex-col gap-4 md:gap-3 reveal delay-2">
+            <div class="glass-card p-6 rounded-2xl flex md:flex-col gap-4 md:gap-3 reveal delay-2">
                 <div class="strength-icon">🎯</div>
                 <div>
                     <div class="font-bold text-white text-sm md:text-base mb-1">마케팅 · 영업 통합 실행</div>
                     <div class="text-gray-400 text-xs md:text-sm leading-relaxed">기획 단계부터 실제 영업·운영까지 직접 주도하며 성과를 만들어냄</div>
                 </div>
             </div>
-            <div class="glass-card p-6 rounded-2xl hover-up flex md:flex-col gap-4 md:gap-3 reveal delay-3">
+            <div class="glass-card p-6 rounded-2xl flex md:flex-col gap-4 md:gap-3 reveal delay-3">
                 <div class="strength-icon">📊</div>
                 <div>
                     <div class="font-bold text-white text-sm md:text-base mb-1">빠른 실행 기반 사업 검증</div>
@@ -694,7 +654,7 @@
         <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal">EXPERIENCE</h2>
         <div class="space-y-4">
 
-            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-1">
+            <div class="glass-card card-pad p-8 rounded-2xl reveal delay-1">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
                     <div>
                         <h3 class="card-title text-xl font-bold text-white">유니브립 (UNIVLIP)</h3>
@@ -710,7 +670,7 @@
                 </ul>
             </div>
 
-            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-2">
+            <div class="glass-card card-pad p-8 rounded-2xl reveal delay-2">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
                     <div>
                         <h3 class="card-title text-xl font-bold text-white">림픽컴퍼니</h3>
@@ -725,7 +685,7 @@
                 </ul>
             </div>
 
-            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-3">
+            <div class="glass-card card-pad p-8 rounded-2xl reveal delay-3">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
                     <div>
                         <h3 class="card-title text-xl font-bold text-white">(주)디렉터홀딩스</h3>
@@ -745,7 +705,7 @@
                 </a>
             </div>
 
-            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-4">
+            <div class="glass-card card-pad p-8 rounded-2xl reveal delay-4">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
                     <div>
                         <h3 class="card-title text-xl font-bold text-white">산호초메디컬</h3>
@@ -765,7 +725,7 @@
                 </a>
             </div>
 
-            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-5">
+            <div class="glass-card card-pad p-8 rounded-2xl reveal delay-5">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
                     <div>
                         <h3 class="card-title text-xl font-bold text-white">에셋코치 <span class="text-gray-500 font-normal text-base">@assetcoach0</span></h3>
@@ -784,7 +744,7 @@
                 </a>
             </div>
 
-            <div class="glass-card card-pad p-8 rounded-2xl hover-up reveal delay-6">
+            <div class="glass-card card-pad p-8 rounded-2xl reveal delay-6">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
                     <div>
                         <h3 class="card-title text-xl font-bold text-white">(주)텐덤</h3>
@@ -861,7 +821,7 @@
 
         <div class="space-y-5">
             <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal">EDUCATION</h2>
-            <div class="glass-card p-6 rounded-2xl hover-up reveal delay-1 flex items-center justify-between gap-4">
+            <div class="glass-card p-6 rounded-2xl reveal delay-1 flex items-center justify-between gap-4">
                 <div>
                     <h3 class="text-lg font-bold text-white">🎓 건국대학교</h3>
                     <p class="text-gray-300 mt-1.5">산업공학과 재학</p>
@@ -876,7 +836,7 @@
 
             <!-- 대한민국 공군 (MILITARY 섹션) -->
             <h2 class="section-heading text-2xl font-bold border-b border-gray-800 reveal pt-2">MILITARY</h2>
-            <div class="glass-card p-6 rounded-2xl hover-up reveal delay-1">
+            <div class="glass-card p-6 rounded-2xl reveal delay-1">
                 <div class="flex items-start justify-between">
                     <div>
                         <h3 class="text-lg font-bold text-white">✈️ 대한민국 공군</h3>
@@ -1155,32 +1115,6 @@ if (scrollHint) {
     window.addEventListener('scroll', () => {
         scrollHint.style.opacity = window.scrollY > 80 ? '0' : '0.4';
     }, { passive: true });
-}
-
-/* ── 7-2. 터치 기기에서 카드 효과 자연스러운 유지 (1초간 .touched 클래스 유지 후 부드럽게 해제) ──
-   터치 기기에서만 실행: hover 가능 기기(데스크톱)는 :hover로 처리되므로 불필요 */
-if (window.matchMedia('(hover: none)').matches) {
-    const touchTargets = document.querySelectorAll('.hover-up');
-    const TOUCH_HOLD_MS = 400; /* 누른 후 효과 유지 시간 (페이드아웃은 CSS transition 0.2s가 추가로 처리) */
-
-    touchTargets.forEach(el => {
-        let timeoutId = null;
-        el.addEventListener('touchstart', () => {
-            if (timeoutId) clearTimeout(timeoutId);
-            el.classList.add('touched');
-        }, { passive: true });
-
-        const scheduleRemoval = () => {
-            if (timeoutId) clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
-                el.classList.remove('touched');
-                timeoutId = null;
-            }, TOUCH_HOLD_MS);
-        };
-
-        el.addEventListener('touchend',    scheduleRemoval, { passive: true });
-        el.addEventListener('touchcancel', scheduleRemoval, { passive: true });
-    });
 }
 
 /* ── 8. 숫자 카운트업 애니메이션 (Intersection Observer 연동) ── */
