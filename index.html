@@ -31,9 +31,10 @@
     <meta property="og:title" content="윤제훈 | 연쇄 창업가 · Serial Entrepreneur">
     <meta property="og:description" content="20세 첫 창업, 누적 매출 11억 원. 광고·커머스·의료 플랫폼에서 4번의 창업으로 실행력을 증명한 연쇄 창업가.">
     <meta property="og:url" content="https://jehoon-yun.github.io/Business-Profile/">
-    <meta property="og:image" content="https://jehoon-yun.github.io/Business-Profile/images/profile.jpg">
+    <meta property="og:image" content="https://jehoon-yun.github.io/Business-Profile/images/og-image.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:alt" content="윤제훈 (Jehoon Yun) - 연쇄 창업가 프로필 사진">
     <meta property="profile:first_name" content="제훈">
     <meta property="profile:last_name" content="윤">
@@ -42,7 +43,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="윤제훈 | 연쇄 창업가 · Serial Entrepreneur">
     <meta name="twitter:description" content="20세 첫 창업, 누적 매출 11억 원. 4번의 창업으로 실행력을 증명한 연쇄 창업가.">
-    <meta name="twitter:image" content="https://jehoon-yun.github.io/Business-Profile/images/profile.jpg">
+    <meta name="twitter:image" content="https://jehoon-yun.github.io/Business-Profile/images/og-image.jpg">
     <meta name="twitter:image:alt" content="윤제훈 (Jehoon Yun) - 연쇄 창업가 프로필 사진">
 
     <!-- ───── JSON-LD: 구조화된 데이터 (구글이 "이 사람이 누구인지" 이해) ───── -->
@@ -91,11 +92,6 @@
           "name": "에셋코치"
         }
       ],
-      "worksFor": {
-        "@type": "Organization",
-        "name": "디렉터홀딩스",
-        "url": "https://www.the-director.co.kr/"
-      },
       "memberOf": {
         "@type": "Organization",
         "name": "대한민국 공군",
@@ -118,12 +114,22 @@
     <style>
         /* ── Base ── */
         *, *::before, *::after { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        /* 가로 넘침 방지: iOS Safari는 body의 overflow-x만으로는 가로 흔들림을 막지 못해 html에도 적용 */
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        @supports (overflow: clip) {
+            html, body { overflow-x: clip; }
+        }
         body {
             background-color: #111111;
             color: #F8FAFC;
             font-family: 'Pretendard', sans-serif;
             overflow-x: hidden;
+            word-break: keep-all;        /* 한글 단어 중간에서 줄이 끊기지 않도록 */
+            overflow-wrap: break-word;   /* 아주 긴 단어는 예외적으로 끊어서 넘침 방지 */
+        }
+        /* 초소형 화면(갤럭시 폴드 커버 등 340px 미만): STATS 카드 우측 영문 라벨 숨김 → 숫자 잘림 방지 */
+        @media (max-width: 339px) {
+            #stats .glass-card > div > div:last-child { display: none; }
         }
         /* 스크린리더·검색엔진 전용: 시각적으로는 숨기지만 접근성 트리에는 노출 */
         .sr-only {
@@ -301,7 +307,6 @@
             transform: translateY(36px);
             transition: opacity 0.75s cubic-bezier(.4,0,.2,1),
                         transform 0.75s cubic-bezier(.4,0,.2,1);
-            will-change: opacity, transform;
         }
         .reveal.visible {
             opacity: 1;
@@ -310,13 +315,11 @@
         .reveal-left {
             opacity: 0; transform: translateX(-36px);
             transition: opacity 0.75s ease, transform 0.75s ease;
-            will-change: opacity, transform;
         }
         .reveal-left.visible  { opacity: 1; transform: translateX(0); }
         .reveal-right {
             opacity: 0; transform: translateX(36px);
             transition: opacity 0.75s ease, transform 0.75s ease;
-            will-change: opacity, transform;
         }
         .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
@@ -443,7 +446,12 @@
         /* ── Contact 섹션 ── */
         .contact-heading {
             font-size: clamp(1.25rem, 5vw, 1.875rem);
-            white-space: nowrap;
+            word-break: keep-all;   /* 좁은 화면에서는 단어 단위로 줄바꿈 */
+            text-wrap: balance;     /* 두 줄이 될 때 길이를 고르게 */
+        }
+        /* 한 줄에 들어가는 폭(360px 이상)에서만 줄바꿈 금지 — 320px 이하 기기에서 가로 넘침 방지 */
+        @media (min-width: 360px) {
+            .contact-heading { white-space: nowrap; }
         }
         /* 4개 버튼 컬러 변형 */
         .btn-kakao {
@@ -526,14 +534,14 @@
     <!-- ① HERO -->
     <header id="hero" class="text-center space-y-8">
         <!-- 뱃지 -->
-        <div class="reveal">
+        <div>
             <span class="inline-block px-4 py-1 rounded-full border border-accent text-accent text-xs font-bold tracking-widest">
                 SERIAL ENTREPRENEUR
             </span>
         </div>
 
         <!-- 타이틀 -->
-        <div class="reveal delay-1">
+        <div>
             <h1 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
                 <span class="sr-only">윤제훈 — </span>
                 아이디어를<br class="md:hidden"/>
@@ -542,7 +550,7 @@
         </div>
 
         <!-- 사진 (크고 원형, 레퍼런스 스타일) -->
-        <div class="reveal delay-2 flex flex-col items-center gap-5">
+        <div class="flex flex-col items-center gap-5">
             <div class="hero-photo-wrap">
                                 <img src="images/profile.jpg" alt="윤제훈 프로필" class="hero-photo"
                      loading="eager" decoding="async" fetchpriority="high">
@@ -554,20 +562,20 @@
         </div>
 
         <!-- 소개 -->
-        <p class="reveal delay-3 text-gray-400 text-base md:text-xl leading-relaxed max-w-2xl mx-auto">
+        <p class="text-gray-400 text-base md:text-xl leading-relaxed max-w-2xl mx-auto">
             20세 첫 창업 이후 광고·커머스 분야에서 <strong class="text-white">11억 원 규모 매출</strong>을 창출했습니다.<br class="hidden md:block"/>
             기획에서 멈추지 않고 빠른 실행과 데이터로 <strong class="text-white">수익 구조</strong>를 검증합니다.
         </p>
 
         <!-- CTA -->
-        <div class="reveal delay-4">
+        <div>
             <a href="#contact" class="hero-cta inline-block px-8 py-3 rounded-full border-2 border-accent text-accent font-bold text-sm transition-all duration-200">
                 문의하기
             </a>
         </div>
 
         <!-- 스크롤 유도 화살표 -->
-        <div class="reveal delay-5 flex justify-center pt-4">
+        <div class="flex justify-center pt-4">
             <div class="scroll-hint flex flex-col items-center gap-1 opacity-40">
                 <span class="text-xs text-gray-500 tracking-widest">SCROLL</span>
                 <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
@@ -582,7 +590,7 @@
         <div class="glass-card rounded-2xl reveal delay-1">
             <div class="flex items-center justify-between px-6 py-5 gap-4">
                 <div>
-                    <div class="text-xs text-gray-500 font-mono mb-1">2년 누적 매출</div>
+                    <div class="text-xs text-gray-500 mb-1">2년 누적 매출</div>
                     <div class="text-2xl md:text-3xl font-extrabold text-accent font-mono tracking-tight">
                         <span class="count-up" data-target="1100000000" data-prefix="₩" data-suffix="+">1,100,000,000</span>
                     </div>
@@ -593,7 +601,7 @@
         <div class="glass-card rounded-2xl reveal delay-2">
             <div class="flex items-center justify-between px-6 py-5 gap-4">
                 <div>
-                    <div class="text-xs text-gray-500 font-mono mb-1">단일 월 최대 매출</div>
+                    <div class="text-xs text-gray-500 mb-1">단일 월 최대 매출</div>
                     <div class="text-2xl md:text-3xl font-extrabold text-accent font-mono tracking-tight">
                         ₩73,000,000+
                     </div>
@@ -604,7 +612,7 @@
         <div class="glass-card rounded-2xl reveal delay-3">
             <div class="flex items-center justify-between px-6 py-5 gap-4">
                 <div>
-                    <div class="text-xs text-gray-500 font-mono mb-1">아이디어 → 첫 수익화</div>
+                    <div class="text-xs text-gray-500 mb-1">아이디어 → 첫 수익화</div>
                     <div class="text-2xl md:text-3xl font-extrabold text-accent">&lt;1개월</div>
                 </div>
                 <div class="text-xs text-gray-600 font-mono">TIME TO REVENUE</div>
@@ -613,7 +621,7 @@
         <div class="glass-card rounded-2xl reveal delay-4">
             <div class="flex items-center justify-between px-6 py-5 gap-4">
                 <div>
-                    <div class="text-xs text-gray-500 font-mono mb-1">창업 및 BM 구축</div>
+                    <div class="text-xs text-gray-500 mb-1">창업 및 BM 구축</div>
                     <div class="text-2xl md:text-3xl font-extrabold text-accent">4회</div>
                 </div>
                 <div class="text-xs text-gray-600 font-mono">FOUNDED</div>
