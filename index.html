@@ -385,6 +385,24 @@
         }
         .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
+        /* ── 첫 화면(HERO) 순차 등장: 페이지가 열리면 위에서부터 0.1초 간격으로 떠오름 ──
+           아래 섹션의 .reveal과 같은 거리·속도·곡선을 써서 움직임을 통일.
+           CSS만으로 동작하므로 자바스크립트가 꺼져 있어도 정상 표시 */
+        @keyframes heroIn {
+            from { opacity: 0; transform: translateY(36px); }
+            to   { opacity: 1; transform: none; }
+        }
+        .hero-in {
+            animation: heroIn 0.75s cubic-bezier(.4,0,.2,1) backwards;  /* backwards: 대기 중엔 숨김, 끝나면 원래 스타일로 복귀(잔여 transform 없음) */
+        }
+        .hero-d1 { animation-delay: 0.10s; }
+        .hero-d2 { animation-delay: 0.20s; }
+        .hero-d3 { animation-delay: 0.30s; }
+        .hero-d4 { animation-delay: 0.40s; }
+        .hero-d5 { animation-delay: 0.50s; }
+        .hero-d6 { animation-delay: 0.60s; }
+        .hero-d7 { animation-delay: 0.80s; }
+
         /* ── 순차 딜레이 ── */
         .delay-1 { transition-delay: 0.05s; }
         .delay-2 { transition-delay: 0.13s; }
@@ -613,14 +631,14 @@
     <!-- ① HERO -->
     <header id="hero" class="text-center space-y-8">
         <!-- 뱃지 -->
-        <div>
+        <div class="hero-in hero-d1">
             <span class="inline-block px-4 py-1 rounded-full border border-accent text-accent text-xs font-bold tracking-widest">
                 SERIAL ENTREPRENEUR
             </span>
         </div>
 
         <!-- 타이틀 -->
-        <div>
+        <div class="hero-in hero-d2">
             <h1 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
                 <span class="sr-only">윤제훈 — </span>
                 아이디어를<br class="md:hidden"/>
@@ -630,31 +648,31 @@
 
         <!-- 사진 (크고 원형, 레퍼런스 스타일) -->
         <div class="flex flex-col items-center gap-5">
-            <div class="hero-photo-wrap">
+            <div class="hero-photo-wrap hero-in hero-d3">
                                 <img src="images/profile.jpg" alt="윤제훈 프로필" class="hero-photo"
                      loading="eager" decoding="async" fetchpriority="high">
             </div>
-            <div>
+            <div class="hero-in hero-d4">
                 <p class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">윤제훈</p>
                 <p class="text-sm text-accent font-mono tracking-widest mt-1">Jehoon Yun</p>
             </div>
         </div>
 
         <!-- 소개 -->
-        <p class="text-gray-400 text-base md:text-xl leading-relaxed max-w-2xl mx-auto">
+        <p class="text-gray-400 text-base md:text-xl leading-relaxed max-w-2xl mx-auto hero-in hero-d5">
             20세 첫 창업 이후 광고·커머스 분야에서 <strong class="text-white">11억 원 규모 매출</strong>을 창출했습니다.<br class="hidden md:block"/>
             기획에서 멈추지 않고 빠른 실행과 데이터로 <strong class="text-white">수익 구조</strong>를 검증합니다.
         </p>
 
         <!-- CTA -->
-        <div>
+        <div class="hero-in hero-d6">
             <a href="#contact" class="hero-cta inline-block px-8 py-3 rounded-full border-2 border-accent text-accent font-bold text-sm transition-all duration-200">
                 문의하기
             </a>
         </div>
 
         <!-- 스크롤 유도 화살표 -->
-        <div class="flex justify-center pt-4">
+        <div class="flex justify-center pt-4 hero-in hero-d7">
             <div class="scroll-hint flex flex-col items-center gap-1 opacity-40">
                 <span class="text-xs text-gray-500 tracking-widest">SCROLL</span>
                 <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
