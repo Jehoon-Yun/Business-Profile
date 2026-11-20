@@ -46,61 +46,78 @@
     <meta name="twitter:image" content="https://jehoon-yun.github.io/Business-Profile/images/og-image.jpg">
     <meta name="twitter:image:alt" content="윤제훈 (Jehoon Yun) - 연쇄 창업가 프로필 사진">
 
-    <!-- ───── JSON-LD: 구조화된 데이터 (구글이 "이 사람이 누구인지" 이해) ───── -->
+    <!-- ───── JSON-LD: 구조화된 데이터 (구글이 "이 사람이 누구인지" 이해) ─────
+         창업 관계는 표준에 맞춰 회사(Organization) 쪽에 founder로 표기하고 @id로 인물과 연결 -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "윤제훈",
-      "alternateName": "Jehoon Yun",
-      "url": "https://jehoon-yun.github.io/Business-Profile/",
-      "image": "https://jehoon-yun.github.io/Business-Profile/images/profile.jpg",
-      "jobTitle": "Serial Entrepreneur",
-      "description": "20세에 첫 창업을 시작해 광고·커머스·의료 플랫폼 분야에서 5번의 창업과 누적 매출 11억 원을 만들어낸 연쇄 창업가.",
-      "email": "mailto:yjh4334@naver.com",
-      "nationality": "Korean",
-      "alumniOf": {
-        "@type": "CollegeOrUniversity",
-        "name": "건국대학교 (Konkuk University)",
-        "url": "https://www.konkuk.ac.kr/"
-      },
-      "knowsAbout": [
-        "스타트업 창업",
-        "마케팅 전략",
-        "이커머스",
-        "비즈니스 모델 검증",
-        "대학생 마케팅",
-        "의료 플랫폼"
-      ],
-      "founder": [
+      "@graph": [
         {
-          "@type": "Organization",
-          "name": "유니브립",
-          "alternateName": "UNIVLIP"
+          "@type": "Person",
+          "@id": "https://jehoon-yun.github.io/Business-Profile/#person",
+          "name": "윤제훈",
+          "alternateName": "Jehoon Yun",
+          "url": "https://jehoon-yun.github.io/Business-Profile/",
+          "image": "https://jehoon-yun.github.io/Business-Profile/images/profile.jpg",
+          "jobTitle": "Serial Entrepreneur",
+          "description": "20세에 첫 창업을 시작해 광고·커머스·의료 플랫폼 분야에서 5번의 창업과 누적 매출 11억 원을 만들어낸 연쇄 창업가.",
+          "email": "mailto:yjh4334@naver.com",
+          "nationality": "Korean",
+          "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "건국대학교 (Konkuk University)",
+            "url": "https://www.konkuk.ac.kr/"
+          },
+          "knowsAbout": [
+            "스타트업 창업",
+            "마케팅 전략",
+            "이커머스",
+            "비즈니스 모델 검증",
+            "대학생 마케팅",
+            "의료 플랫폼"
+          ],
+          "memberOf": {
+            "@type": "Organization",
+            "name": "대한민국 공군",
+            "alternateName": "Republic of Korea Air Force"
+          },
+          "sameAs": [
+            "https://instagram.com/yunjehoon",
+            "https://www.threads.com/@yunjehoon",
+            "https://www.instagram.com/assetcoach0/",
+            "https://open.kakao.com/o/saMAi1ri"
+          ]
         },
         {
           "@type": "Organization",
-          "name": "림픽컴퍼니"
+          "name": "유니브립",
+          "alternateName": "UNIVLIP",
+          "founder": {
+            "@id": "https://jehoon-yun.github.io/Business-Profile/#person"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "림픽컴퍼니",
+          "founder": {
+            "@id": "https://jehoon-yun.github.io/Business-Profile/#person"
+          }
         },
         {
           "@type": "Organization",
           "name": "산호초메디컬",
-          "url": "https://sanhocho-medical-wf.com/"
+          "url": "https://sanhocho-medical-wf.com/",
+          "founder": {
+            "@id": "https://jehoon-yun.github.io/Business-Profile/#person"
+          }
         },
         {
           "@type": "Organization",
-          "name": "에셋코치"
+          "name": "에셋코치",
+          "founder": {
+            "@id": "https://jehoon-yun.github.io/Business-Profile/#person"
+          }
         }
-      ],
-      "memberOf": {
-        "@type": "Organization",
-        "name": "대한민국 공군",
-        "alternateName": "Republic of Korea Air Force"
-      },
-      "sameAs": [
-        "https://instagram.com/yunjehoon",
-        "https://www.instagram.com/assetcoach0/",
-        "https://open.kakao.com/o/saMAi1ri"
       ]
     }
     </script>
@@ -228,6 +245,51 @@
         @media (hover: hover) {
             .nav-link:hover { color: #FF5A36; }
             .nav-link:hover::after { width: 100%; }
+        }
+
+        /* ── 모바일 메뉴 (☰ 버튼 + 펼침 목록, 768px 미만에서만) ── */
+        .menu-toggle {
+            width: 40px; height: 40px;
+            display: inline-flex; align-items: center; justify-content: center;
+            margin-right: -8px;                 /* 아이콘 오른쪽 끝을 본문 여백에 맞춤 */
+            border-radius: 10px;
+            color: #e5e7eb;
+            background: transparent;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: color 0.2s, background-color 0.2s;
+        }
+        .menu-toggle svg { width: 22px; height: 22px; }
+        .menu-toggle .icon-close { display: none; }
+        .menu-toggle.open { color: #FF5A36; background: rgba(255,90,54,0.1); }
+        .menu-toggle.open .icon-open  { display: none; }
+        .menu-toggle.open .icon-close { display: block; }
+
+        .mobile-menu {
+            display: none;
+            padding: 6px 20px 14px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .mobile-menu.open {
+            display: block;
+            animation: menuIn 0.2s ease-out;
+        }
+        @keyframes menuIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .mobile-menu .nav-link {
+            display: block;
+            padding: 13px 2px;
+            font-size: 0.85rem;
+            color: #9ca3af;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .mobile-menu .nav-link:last-child { border-bottom: 0; }
+        .mobile-menu .nav-link::after { display: none; }   /* 밑줄 효과는 데스크톱 메뉴 전용 */
+        .mobile-menu .nav-link.active { color: #FF5A36; }
+        @media (min-width: 768px) {
+            .mobile-menu, .mobile-menu.open { display: none; }
         }
 
         /* ── 스크롤 진행 바 ── */
@@ -464,10 +526,10 @@
             border: 1px solid rgba(59,130,246,0.4);
             color: #60a5fa;
         }
-        .btn-url {
-            background: rgba(255,90,54,0.1);
-            border: 1px solid rgba(255,90,54,0.4);
-            color: #FF5A36;
+        .btn-threads {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.35);
+            color: #ffffff;
         }
         .btn-instagram {
             background: linear-gradient(135deg, rgba(255,216,121,0.15), rgba(255,84,62,0.15), rgba(193,53,132,0.15), rgba(88,81,219,0.15));
@@ -475,12 +537,6 @@
             background-clip: padding-box;
             box-shadow: 0 0 0 1.5px rgba(225,48,108,0.5);
             position: relative;
-        }
-        /* URL 복사 버튼 SVG는 다른 SVG 아이콘과 사이즈가 약간 다름 */
-        .url-svg-icon {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
         }
 
         /* ── 키보드 포커스 인디케이터 (Tab 이동 시에만 노출) ── */
@@ -514,20 +570,40 @@
 
 <!-- ─── 네비게이션 ─── -->
 <nav id="navbar" class="fixed top-0 left-0 right-0">
-    <div class="max-w-4xl mx-auto px-5 h-14 flex items-center justify-between">
+    <div id="nav-bar" class="max-w-4xl mx-auto px-5 h-14 flex items-center justify-between">
         <a href="#hero" class="logo-link font-extrabold text-white tracking-tight text-base transition-colors duration-200">
             윤제훈 <span class="text-accent">·</span> YJH
         </a>
-        <div class="hidden md:flex items-center gap-7">
+        <div id="desktop-menu" class="hidden md:flex items-center gap-7">
             <a href="#stats"      class="nav-link">STATS</a>
             <a href="#strengths"  class="nav-link">STRENGTHS</a>
             <a href="#experience" class="nav-link">EXPERIENCE</a>
             <a href="#highlights" class="nav-link">HIGHLIGHTS</a>
             <a href="#contact"    class="nav-link">CONTACT</a>
         </div>
-        <a href="#contact" class="mobile-cta md:hidden text-xs font-bold px-4 py-1.5 rounded-full border border-accent text-accent transition-all">
-            문의하기
-        </a>
+        <!-- 모바일 전용: 문의하기 + 메뉴 버튼 -->
+        <div class="flex items-center gap-3 md:hidden">
+            <a href="#contact" class="mobile-cta text-xs font-bold px-4 py-1.5 rounded-full border border-accent text-accent transition-all">
+                문의하기
+            </a>
+            <button id="menu-toggle" type="button" class="menu-toggle"
+                    aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu">
+                <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/>
+                </svg>
+                <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <!-- 모바일 메뉴 목록 (☰ 버튼으로 열고 닫음) -->
+    <div id="mobile-menu" class="mobile-menu">
+        <a href="#stats"      class="nav-link">STATS</a>
+        <a href="#strengths"  class="nav-link">STRENGTHS</a>
+        <a href="#experience" class="nav-link">EXPERIENCE</a>
+        <a href="#highlights" class="nav-link">HIGHLIGHTS</a>
+        <a href="#contact"    class="nav-link">CONTACT</a>
     </div>
 </nav>
 
@@ -875,7 +951,7 @@
         </div>
 
         <!-- 연락처 버튼 4개: 모바일 4행 1열 / PC 2행 2열 -->
-        <!-- 순서: ① 카카오톡  ② 이메일  ③ URL 복사  ④ 인스타그램 -->
+        <!-- 순서: ① 카카오톡  ② 이메일  ③ 스레드  ④ 인스타그램 -->
         <div class="flex flex-col md:grid md:grid-cols-2 justify-center items-center gap-3 reveal delay-1 md:max-w-xl md:mx-auto">
             <!-- ① 카카오톡: 카카오 노랑 컬러 -->
             <a href="https://open.kakao.com/o/saMAi1ri" target="_blank" rel="noopener noreferrer"
@@ -896,18 +972,18 @@
                 </svg>
                 <span id="email-btn-text">yjh4334@naver.com</span>
             </button>
-            <!-- ③ URL 복사: 주황 컬러 -->
-            <button id="url-copy-btn"
-                    aria-label="프로필 URL 클립보드에 복사하기"
-                    class="btn-url flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm cursor-pointer whitespace-nowrap">
-                <svg class="url-svg-icon" viewBox="0 0 24 24" fill="none" stroke="#FF5A36" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            <!-- ③ 스레드: 흰색 컬러 (인스타그램과 같은 아이디) -->
+            <a href="https://www.threads.com/@yunjehoon" target="_blank" rel="noopener noreferrer"
+               aria-label="스레드 프로필로 이동"
+               class="btn-threads flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm whitespace-nowrap">
+                <svg class="contact-svg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
+                    <path d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/>
                 </svg>
-                <span id="url-copy-text">프로필 URL 복사</span>
-            </button>
+                <span>@yunjehoon</span>
+            </a>
             <!-- ④ 인스타그램: 그라데이션 배경/테두리, 흰색 아이콘 -->
             <a href="https://instagram.com/yunjehoon" target="_blank" rel="noopener noreferrer"
+               aria-label="인스타그램 프로필로 이동"
                class="btn-instagram flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all w-full justify-center text-sm text-white whitespace-nowrap">
                 <svg class="ig-gradient-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
@@ -1015,6 +1091,7 @@
 /* ── 2. 스크롤 진행 바 + 네비게이션 scrolled ── */
 const progressBar = document.getElementById('progress-bar');
 const navbar      = document.getElementById('navbar');
+const navBar      = document.getElementById('nav-bar');   /* 상단 막대(56px) — 모바일 메뉴가 펼쳐져도 높이가 변하지 않음 */
 
 /* scrollHeight를 매 스크롤마다 재계산하면 레이아웃이 강제로 다시 잡힘.
    → 처음 1회 + 로드 후 + 창 크기 변경 시에만 계산하고 캐시 */
@@ -1050,7 +1127,7 @@ document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => 
 });
 
 
-/* ── 4 & 5. 클립보드 복사 (통합 헬퍼 함수 + 이벤트 리스너) ── */
+/* ── 4 & 5. 클립보드 복사 (헬퍼 함수 + 이벤트 리스너) ── */
 /* 복사에 실패하면 조용히 넘어가지 않고 실패 문구를 보여준 뒤 onFail(대체 동작)을 실행 */
 function copyToClipboard(text, btnId, defaultText, successText, failText, onFail) {
     const btn = document.getElementById(btnId);
@@ -1096,14 +1173,6 @@ if (emailCopyBtn) {
             '메일 앱을 엽니다', () => { window.location.href = 'mailto:yjh4334@naver.com'; });
     });
 }
-/* 프로필 URL 복사 버튼 */
-const urlCopyBtn = document.getElementById('url-copy-btn');
-if (urlCopyBtn) {
-    urlCopyBtn.addEventListener('click', () => {
-        copyToClipboard('https://jehoon-yun.github.io/Business-Profile/', 'url-copy-text', '프로필 URL 복사', '✓ 복사 완료!',
-            '복사 실패 · 주소창에서 복사해 주세요');
-    });
-}
 
 /* ── 6. 네비게이션 active 링크 ── */
 /* 기준선(네비게이션 바로 아래 100px)을 지나간 마지막 섹션을 '현재 섹션'으로 표시.
@@ -1124,7 +1193,7 @@ function setActive(id) {
 function updateActiveSection() {
     if (!sectionEls.length) return;
     if (lockedSectionId) { setActive(lockedSectionId); return; }
-    const baseLine  = navbar.offsetHeight + 100;
+    const baseLine  = navBar.offsetHeight + 100;
     const sweep     = Math.max(window.innerHeight - baseLine, 0);
     const remaining = Math.max(document.documentElement.scrollHeight - window.innerHeight - window.scrollY, 0);
     const line      = baseLine + Math.max(sweep - remaining, 0);   /* 끝에서 sweep(px) 이내면 기준선을 아래로 이동 */
@@ -1155,7 +1224,7 @@ updateActiveSection();
 function smoothScrollTo(href) {
     const target = document.querySelector(href);
     if (!target) return;
-    const navH = navbar.offsetHeight;
+    const navH = navBar.offsetHeight;
     const top  = target.getBoundingClientRect().top + window.scrollY - navH - 8;
     window.scrollTo({ top, behavior: 'smooth' });
 }
@@ -1165,6 +1234,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
         const href = this.getAttribute('href');
         if (href === '#') return;
         e.preventDefault();
+        setMenuOpen(false);                /* 모바일 메뉴가 열려 있으면 닫고 이동 */
         lockedSectionId = href.slice(1);   /* 누른 메뉴를 바로 켜고, 이동이 끝날 때까지 유지 */
         setActive(lockedSectionId);
         smoothScrollTo(href);
@@ -1174,7 +1244,36 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 });
 
 
-/* ── 7. 스크롤 유도 화살표 (opacity만 JS로 처리, 애니메이션은 CSS) ── */
+/* ── 7-1. 모바일 메뉴 열기/닫기 ── */
+const menuToggle = document.getElementById('menu-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+
+function setMenuOpen(open) {
+    if (!menuToggle || !mobileMenu) return;
+    mobileMenu.classList.toggle('open', open);
+    menuToggle.classList.toggle('open', open);
+    menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuToggle.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+}
+
+if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', () => {
+        setMenuOpen(!mobileMenu.classList.contains('open'));
+    });
+    /* 메뉴 바깥을 누르거나, Esc를 누르거나, 화면이 넓어지면 닫기 */
+    document.addEventListener('click', (e) => {
+        if (!navbar.contains(e.target)) setMenuOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setMenuOpen(false);
+    });
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) setMenuOpen(false);
+    }, { passive: true });
+}
+
+
+/* ── 7-2. 스크롤 유도 화살표 (opacity만 JS로 처리, 애니메이션은 CSS) ── */
 const scrollHint = document.querySelector('.scroll-hint');
 if (scrollHint) {
     window.addEventListener('scroll', () => {

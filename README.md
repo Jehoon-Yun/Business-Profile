@@ -21,7 +21,8 @@
 - 스크롤 시 고정(sticky) 네비게이션 바 및 배경 블러 효과
 - 스크롤 위치 기반 활성 섹션 하이라이트 (메뉴 클릭 시 해당 메뉴 고정, 페이지 끝에서 CONTACT까지 정확히 표시)
 - GPU 가속(`transform: scaleX`)을 활용한 최적화된 스크롤 진행 바(Progress bar)
-- 클립보드 복사 기능 (이메일, 프로필 URL) — `addEventListener` 기반, 복사 실패 시 안내 문구 표시(이메일은 메일 앱 연결)
+- 모바일 메뉴 (☰ 버튼으로 섹션 목록 열기/닫기 — 바깥 터치·Esc·메뉴 선택 시 자동 닫힘)
+- 이메일 클립보드 복사 기능 — `addEventListener` 기반, 복사 실패 시 메일 앱 연결
 
 ### 애니메이션
 - Intersection Observer를 활용한 스크롤 `fade-in-up` 등장 애니메이션
@@ -36,7 +37,7 @@
 - 데스크톱·터치 기기 분기 호버 효과 (`@media (hover: hover/none)`)
 
 ### SEO & 메타데이터
-- JSON-LD Schema.org `Person` 타입 — `founder`(4개 회사), `memberOf` 관계 명시
+- JSON-LD Schema.org `Person` + `Organization`(4개 회사) — 회사 쪽 `founder`가 `@id`로 인물을 가리키는 표준 구조, `memberOf`·`sameAs` 명시
 - Open Graph + Twitter Card 메타 태그
 - canonical URL, sitemap.xml, robots.txt 완비
 - 구글 사이트 검증(google-site-verification) 메타 적용
@@ -47,7 +48,7 @@
 - **Experience**: 6개 경력 카드 (대형 4개 + 소형 2개)
 - **Highlights**: 5개 주요 수상/성과
 - **Education**: 학력 + Military 섹션 (공군 복무)
-- **Contact Footer**: 카카오톡/이메일/URL복사/인스타그램 연결 버튼
+- **Contact Footer**: 카카오톡/이메일/스레드/인스타그램 연결 버튼
 
 ### 반응형
 - 모바일 / 태블릿 / 데스크톱 완전 대응
@@ -127,6 +128,14 @@ README.md
 ### 안정성
 - 자바스크립트가 꺼진 환경에서도 본문이 보이도록 `<noscript>` 대비 추가
 
+### 기능 추가
+- 모바일 메뉴(☰) 추가 — 휴대폰에서도 원하는 섹션으로 바로 이동
+- 연락처의 "프로필 URL 복사" 버튼을 스레드(@yunjehoon) 버튼으로 교체 (2×2 배치 유지)
+
+### SEO
+- JSON-LD를 `@graph` 구조로 변경 — `founder`를 표준대로 회사(Organization) 쪽 속성으로 옮기고 `@id`로 인물과 연결
+- `sameAs`에 스레드 프로필 추가
+
 ### 정리
 - 루트의 중복 파일(`og-image.jpg`, `konkuk-logo.webp`) 삭제 — `images/` 안의 파일만 사용
 - sitemap.xml 수정일 갱신
@@ -138,7 +147,6 @@ README.md
 - [ ] 다국어 지원 (영문 버전)
 - [ ] 다운로드 가능한 PDF 이력서 연동
 - [ ] 포트폴리오 상세 페이지 (프로젝트별 케이스 스터디)
-- [ ] 모바일 햄버거 네비게이션 추가
 - [ ] 경력 카드별 본인 기여도/임팩트 명시 보강
 
 ---
