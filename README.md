@@ -19,9 +19,9 @@
 
 ### 네비게이션 & UX
 - 스크롤 시 고정(sticky) 네비게이션 바 및 배경 블러 효과
-- Intersection Observer 기반 활성 섹션 하이라이트
+- 스크롤 위치 기반 활성 섹션 하이라이트 (메뉴 클릭 시 해당 메뉴 고정, 페이지 끝에서 CONTACT까지 정확히 표시)
 - GPU 가속(`transform: scaleX`)을 활용한 최적화된 스크롤 진행 바(Progress bar)
-- 클립보드 복사 기능 (이메일, 프로필 URL) — `addEventListener` 기반
+- 클립보드 복사 기능 (이메일, 프로필 URL) — `addEventListener` 기반, 복사 실패 시 안내 문구 표시(이메일은 메일 앱 연결)
 
 ### 애니메이션
 - Intersection Observer를 활용한 스크롤 `fade-in-up` 등장 애니메이션
@@ -36,7 +36,7 @@
 - 데스크톱·터치 기기 분기 호버 효과 (`@media (hover: hover/none)`)
 
 ### SEO & 메타데이터
-- JSON-LD Schema.org `Person` 타입 — `founder`(4개 회사), `worksFor`, `memberOf` 관계 명시
+- JSON-LD Schema.org `Person` 타입 — `founder`(4개 회사), `memberOf` 관계 명시
 - Open Graph + Twitter Card 메타 태그
 - canonical URL, sitemap.xml, robots.txt 완비
 - 구글 사이트 검증(google-site-verification) 메타 적용
@@ -66,6 +66,7 @@ site.webmanifest        # PWA 매니페스트
 images/
   profile.jpg           # 프로필 사진
   konkuk-logo.webp      # 건국대학교 로고
+  og-image.jpg          # SNS 공유 미리보기 이미지 (1200×630)
   favicon.ico
   favicon-16x16.png
   favicon-32x32.png
@@ -94,7 +95,7 @@ README.md
 
 ### SEO 강화
 - h1 태그에 `sr-only` 기법으로 본인 이름 키워드 추가 (시각 디자인은 그대로)
-- JSON-LD에 `founder` (유니브립·림픽컴퍼니·산호초메디컬·에셋코치), `worksFor` (디렉터홀딩스), `memberOf` (대한민국 공군) 관계 추가 — 구글이 인물-조직 관계를 정확히 이해
+- JSON-LD에 `founder` (유니브립·림픽컴퍼니·산호초메디컬·에셋코치), `memberOf` (대한민국 공군) 관계 추가 — 구글이 인물-조직 관계를 정확히 이해
 
 ### 접근성 보강
 - 키보드 사용자를 위한 `focus-visible` 오렌지 인디케이터
@@ -112,9 +113,28 @@ README.md
 
 ---
 
+## 🔧 최근 개선 사항 (2026.11)
+
+### 콘텐츠
+- 창업 횟수 표기를 5회로 통일 (본문 STATS, 메타 설명, SNS 공유 이미지)
+- 누적 매출 기간을 "2024–2025 누적 매출"로 명시
+
+### 버그 수정
+- 상단 메뉴 하이라이트: STATS 클릭 시 STATS가 켜지지 않던 문제, 맨 아래에서 CONTACT가 켜지지 않던 문제 해결
+- 백그라운드 탭에서 열었을 때 배경 파티클 애니메이션이 중복 실행되던 문제 해결
+- 클립보드 복사 실패 시 아무 반응이 없던 문제 해결
+
+### 안정성
+- 자바스크립트가 꺼진 환경에서도 본문이 보이도록 `<noscript>` 대비 추가
+
+### 정리
+- 루트의 중복 파일(`og-image.jpg`, `konkuk-logo.webp`) 삭제 — `images/` 안의 파일만 사용
+- sitemap.xml 수정일 갱신
+
+---
+
 ## ⚠️ 추후 개선 사항
 
-- [ ] OG 이미지 교체 (1200×630 전용 카드 디자인 — SNS 공유 미리보기용)
 - [ ] 다국어 지원 (영문 버전)
 - [ ] 다운로드 가능한 PDF 이력서 연동
 - [ ] 포트폴리오 상세 페이지 (프로젝트별 케이스 스터디)
@@ -128,7 +148,7 @@ README.md
 - **HTML5 / CSS3 / Vanilla JS** (순수 프론트엔드)
 - **Tailwind CSS** — 사전 컴파일된 `output.css`로 정적 제공
 - **Pretendard** 폰트 (CDN — `pretendard-dynamic-subset.min.css`)
-- **Intersection Observer API** — 스크롤 등장·카운트업·네비게이션 활성화
+- **Intersection Observer API** — 스크롤 등장·카운트업
 - **requestAnimationFrame** — 카운트업 프레임 렌더링
 - **HTML5 Canvas** — 배경 파티클 효과
 - **Schema.org JSON-LD** — 구조화된 데이터로 검색엔진 최적화

@@ -500,6 +500,9 @@
         }
 
     </style>
+
+    <!-- 자바스크립트가 꺼진 환경: 등장 애니메이션 요소가 투명한 채로 남지 않도록 처음부터 표시 -->
+    <noscript><style>.reveal, .reveal-left, .reveal-right { opacity: 1; transform: none; }</style></noscript>
 </head>
 <body class="antialiased selection:bg-accent selection:text-white" ontouchstart="">
 
@@ -590,9 +593,9 @@
         <div class="glass-card rounded-2xl reveal delay-1">
             <div class="flex items-center justify-between px-6 py-5 gap-4">
                 <div>
-                    <div class="text-xs text-gray-500 mb-1">2년 누적 매출</div>
+                    <div class="text-xs text-gray-500 mb-1">2024–2025 누적 매출</div>
                     <div class="text-2xl md:text-3xl font-extrabold text-accent font-mono tracking-tight">
-                        <span class="count-up" data-target="1100000000" data-prefix="₩" data-suffix="+">1,100,000,000</span>
+                        <span class="count-up" data-target="1100000000" data-prefix="₩" data-suffix="+">₩1,100,000,000+</span>
                     </div>
                 </div>
                 <div class="text-xs text-gray-600 font-mono">KRW</div>
@@ -987,8 +990,8 @@
     loop();
 
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) cancelAnimationFrame(rafId);
-        else loop();
+        cancelAnimationFrame(rafId); /* 항상 먼저 정지 → 백그라운드 탭에서 열었을 때 루프가 2개 도는 문제 방지 */
+        if (!document.hidden) loop();
     });
     }
 
@@ -1048,21 +1051,40 @@ document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => 
 
 
 /* ── 4 & 5. 클립보드 복사 (통합 헬퍼 함수 + 이벤트 리스너) ── */
-function copyToClipboard(text, btnId, defaultText, successText) {
-    const btn  = document.getElementById(btnId);
-    const done = () => {
-        btn.textContent = successText;
-        setTimeout(() => { btn.textContent = defaultText; }, 2000);
+/* 복사에 실패하면 조용히 넘어가지 않고 실패 문구를 보여준 뒤 onFail(대체 동작)을 실행 */
+function copyToClipboard(text, btnId, defaultText, successText, failText, onFail) {
+    const btn = document.getElementById(btnId);
+    let resetTimer;
+    const flash = (msg) => {
+        btn.textContent = msg;
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => { btn.textContent = defaultText; }, 2000);
     };
+    /* 구형 방식: 임시 입력칸을 만들어 복사. 성공 여부를 true/false로 반환 */
+    const legacyCopy = () => {
+        try {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            const ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            return ok;
+        } catch (e) {
+            return false;
+        }
+    };
+    const fail = () => {
+        flash(failText);
+        if (onFail) onFail();
+    };
+    const tryLegacy = () => { if (legacyCopy()) flash(successText); else fail(); };
+
     if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(done);
+        navigator.clipboard.writeText(text).then(() => flash(successText), tryLegacy);
     } else {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed'; ta.style.opacity = '0';
-        document.body.appendChild(ta); ta.select();
-        document.execCommand('copy'); document.body.removeChild(ta);
-        done();
+        tryLegacy();
     }
 }
 
@@ -1070,31 +1092,64 @@ function copyToClipboard(text, btnId, defaultText, successText) {
 const emailCopyBtn = document.getElementById('email-copy-btn');
 if (emailCopyBtn) {
     emailCopyBtn.addEventListener('click', () => {
-        copyToClipboard('yjh4334@naver.com', 'email-btn-text', 'yjh4334@naver.com', '✓ 복사됨!');
+        copyToClipboard('yjh4334@naver.com', 'email-btn-text', 'yjh4334@naver.com', '✓ 복사됨!',
+            '메일 앱을 엽니다', () => { window.location.href = 'mailto:yjh4334@naver.com'; });
     });
 }
 /* 프로필 URL 복사 버튼 */
 const urlCopyBtn = document.getElementById('url-copy-btn');
 if (urlCopyBtn) {
     urlCopyBtn.addEventListener('click', () => {
-        copyToClipboard('https://jehoon-yun.github.io/Business-Profile/', 'url-copy-text', '프로필 URL 복사', '✓ 복사 완료!');
+        copyToClipboard('https://jehoon-yun.github.io/Business-Profile/', 'url-copy-text', '프로필 URL 복사', '✓ 복사 완료!',
+            '복사 실패 · 주소창에서 복사해 주세요');
     });
 }
 
 /* ── 6. 네비게이션 active 링크 ── */
+/* 기준선(네비게이션 바로 아래 100px)을 지나간 마지막 섹션을 '현재 섹션'으로 표시.
+   - 메뉴를 눌러 이동한 직후에는 누른 메뉴를 그대로 켜 둠 (사용자가 직접 스크롤하면 해제)
+   - 페이지 끝부분에서는 기준선이 화면 아래쪽으로 내려감 → 화면이 큰 모니터에서
+     기준선까지 못 올라오는 마지막 섹션들(HIGHLIGHTS, CONTACT)도 차례대로 켜짐 */
 const navLinks   = document.querySelectorAll('.nav-link');
-const sectionEls = document.querySelectorAll('section[id], header[id], footer[id]');
+const sectionEls = Array.from(document.querySelectorAll('section[id], header[id], footer[id]'));
+let activeSectionId = null;
+let lockedSectionId = null;   /* 메뉴 클릭으로 이동 중일 때 고정할 섹션 */
 
 function setActive(id) {
-    navLinks.forEach(l => l.classList.remove('active'));
-    const t = document.querySelector(`.nav-link[href="#${id}"]`);
-    if (t) t.classList.add('active');
+    if (id === activeSectionId) return;
+    activeSectionId = id;
+    navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
 }
 
-const secObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
-}, { rootMargin: '-35% 0px -58% 0px', threshold: 0 });
-sectionEls.forEach(s => secObserver.observe(s));
+function updateActiveSection() {
+    if (!sectionEls.length) return;
+    if (lockedSectionId) { setActive(lockedSectionId); return; }
+    const baseLine  = navbar.offsetHeight + 100;
+    const sweep     = Math.max(window.innerHeight - baseLine, 0);
+    const remaining = Math.max(document.documentElement.scrollHeight - window.innerHeight - window.scrollY, 0);
+    const line      = baseLine + Math.max(sweep - remaining, 0);   /* 끝에서 sweep(px) 이내면 기준선을 아래로 이동 */
+    let current = sectionEls[0];
+    sectionEls.forEach(s => { if (s.getBoundingClientRect().top <= line) current = s; });
+    if (remaining <= 2) current = sectionEls[sectionEls.length - 1];
+    setActive(current.id);
+}
+
+/* 사용자가 직접 스크롤(휠·터치·키보드·마우스)하면 고정 해제 */
+['wheel', 'touchmove', 'keydown', 'pointerdown'].forEach(type => {
+    window.addEventListener(type, () => { lockedSectionId = null; }, { passive: true });
+});
+
+/* 스크롤 이벤트마다 계산하지 않고 화면 프레임당 1회만 계산 */
+let activeTicking = false;
+function requestActiveUpdate() {
+    if (activeTicking) return;
+    activeTicking = true;
+    requestAnimationFrame(() => { activeTicking = false; updateActiveSection(); });
+}
+window.addEventListener('scroll', requestActiveUpdate, { passive: true });
+window.addEventListener('resize', requestActiveUpdate, { passive: true });
+window.addEventListener('load', requestActiveUpdate, { once: true });
+updateActiveSection();
 
 /* ── 7. 스무스 앵커 스크롤 ── */
 function smoothScrollTo(href) {
@@ -1110,6 +1165,8 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
         const href = this.getAttribute('href');
         if (href === '#') return;
         e.preventDefault();
+        lockedSectionId = href.slice(1);   /* 누른 메뉴를 바로 켜고, 이동이 끝날 때까지 유지 */
+        setActive(lockedSectionId);
         smoothScrollTo(href);
         /* iOS Safari가 anchor 탭 후 포커스를 유지하는 quirk 회피 */
         this.blur();
